@@ -114,9 +114,8 @@ Here is the SPEC file that was created for the _icecast_ application to build an
 
 If you want to mark something as code, indent it by 4 spaces.
 
-    this is code
-    ssssss
-    ssss
+    Name:		icecast
+    Version:	2.0
 
 
 
