@@ -104,7 +104,7 @@ Usually the %build section is an _sh_ script.
 
 Here is the SPEC file that was created for the _icecast_ application to build an RPM file
 >#### cat /root/rpmbuild/SPECS/icecast.spec
->Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;icecast  
+>Name:	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	icecast  
 >Version:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	2.3.3  
 >Release:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	0  
 >Summary:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	Xiph Streaming Media Server that Supports Multiple Formats  
