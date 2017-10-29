@@ -96,8 +96,11 @@ In this step, we direct RPM in the build process by creating a `spec` file.  The
 5.	_%build -_ This is the section that is responsible for performing the build.  
 Usually the %build section is an _sh_ script.
 
-6.	_%install -_ the % install section is also 
+6.	_%install -_ the % install section is also executed as _sh_ script just like %prep and %build.  This is the step that is used for the installation.
 
+7.	_%files -_ This section contains the list of files that are part of the package.  If the files are not part of the %files section then it won't be available in the package.  Complete paths are required and you can set the attributes and ownership of the files in this section.
+
+8.	_%clean -_ This section instructs the RPM to clean up any files that are not part of the application's normal build area.  Lets say for example, if the application creates a temporary directory structure in _/tmp/_ as part of its build, it will not be removed. By adding a _sh_ script in %clean section, the directory can be removed after the build process is completed.
 
 
 
