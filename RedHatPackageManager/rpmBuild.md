@@ -7,7 +7,7 @@ There might also be a situation where you want to build a custom RPM Package for
 
 ## This Article explains how to build a RPM package from the source code.
 
-In order to build RPMs, you will need source code, which usually means a compressed `tar` file that also includes the `SPEC` file
+In order to build RPMs, you will need source code, which usually means a compressed `tar` file that also includes the `SPEC` file.
 
 The `SPEC` file typically contains instructions on how to build an `RPM`, what files are part of the package and where it should be installed.
 
@@ -24,3 +24,24 @@ Once the `RPM` execute the above steps, it creates the binary package file and s
 The binary package file consists of all source files along with any additional information to install or uninstall the package.
 
 It is usually enabled with all the options for installing the package that are platform specific.  Binary package files contain complete applications of libraries of functions compiled for a particular architecture.  The source package usually consists of the original compressed `tar` file, `spec` file and the patches which are required to create the binary package file.
+
+Let us see how to create a simple source BIN RPM package using a `tar` file.
+
+If you are new to rpm packaging, you might want to first understand hot to use rpm command to install, upgrade and remove packages on CentOS or REDHat.
+
+#### 1.	Install rpm-build 
+
+To build an rpm file
+
+#### 2.	RPM Build Directories		
+
+rpm-build will 
+
+
+
+
+
+
+
+
+
