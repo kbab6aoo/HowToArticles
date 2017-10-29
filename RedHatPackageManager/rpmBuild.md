@@ -152,6 +152,106 @@ Here is the SPEC file that was created for the _icecast_ application to build an
     %{_bindir}/icecast
     %{_prefix}/share/icecast/*
 
+    %changelog
+
+    In this file, under % prep section you may notice the macro "%setup -q -n %{name}-%{version}"
+    This macro executes the following command in the background.
+
+    cd /usr/src/redhad/BUILD
+    rm -rf icecast
+    gzip -dc /usr/src/redhat/SOURCES/icecast-2.3.3.tar.gz | tar -xvvf -
+    if [ $? -ne 0 ]; then
+    	exit $?
+    fi
+    cd icecast
+    cd /usr/src/redhat/BUILD/icecast
+    chown -R root.root .
+    chmod -R a+rX,g-w,o-w .
+In %build section, you will see the CFLAGS with configure options that defines the options that can be used during the RPM installation and the prefix option, mandatory directory to be present for the installation and sysconfig directory under which system files needs to be copied over.  
+
+Below that line, you will see the make utility which determines the list of files that needs to be compiled and compiles them appropriately.  
+
+In % install section, the line below the %install that says `make install` is used to take the binaries compiled from the previous steps and installs or copies them to the appropriate locations so they can be accessed.  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
