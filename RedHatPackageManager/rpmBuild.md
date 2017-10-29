@@ -86,7 +86,54 @@ For this example, we are going to use the source code of _icecase_ open source a
 In this step, we direct RPM in the build process by creating a `spec` file.  The `spec` file usually consists of the following eight different sections:
 
 1.	_Preamble -_ The preamble section contains information about the package being built and define any dependencies to the package.  In general, the preamble consists of entries, one per line, that start with a tag followed by a colon, and then some information.
-	
+
+2.	_%prep -_ In this section, we prepare the software for building process.  Any previous builds are removed during the process and the source file _(.tar)_ file is expanded, etc.
+
+3.	One more key thing is to understand there are pre-defined macros available to perform various shortcut options to build an rpm.  You may be using this macro when you try to build any complex packages.  In the below example, in the example below we are going to use %setup which removes any previous builds, untar the source files and changes the ownership of the files.  You can also use _sh_ scripts under %prep section to perform this action but %setup macro simplifies the process by using predefined _sh_ scripts.
+
+4.	_%description -_ the description section usually contains description about the package.
+
+5.	_%build -_ This is the section that is responsible for performing the build.
+Usually the %build section is an _sh_ script.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
