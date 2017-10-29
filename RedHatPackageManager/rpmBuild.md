@@ -37,12 +37,87 @@ To build an rpm file based on the `spec` file that we just created, we need to u
 
 ```
 # yum install rpm-build
-
 ```
 
+`rpm-build` is dependent on the following package.  If you don't have these installed already, `yum` will automatically install these dependencies for you.
+
+```
+elfutils-libelf
+rpm
+rpm-libs
+rpm-python
+```
 #### 2.	RPM Build Directories		
 
-rpm-build will 
+rpm-build will automatically create the following directory structures that will be used during the RPM build
+
+```
+# ls -lF /root/rpmbuild/
+drwx-xr-x	2	root	root	BUILD/
+drwx-xr-x	2	root	root	BUILDROOT/
+drwx-xr-x	2	root	root	RPMS/
+drwx-xr-x	2	root	root	SOURCES/
+drwx-xr-x	2	root	root	SPECS/
+drwx-xr-x	2	root	root	SRPMS/
+```
+_Note:_ The above directory structure is for both CentOS and RedHat when using `rpm-build` package.  You can also use `_usr/src/redhat_` directory, but you need to change the `'topdir'` parameter accordingly during the rpm build.  If you are doing this SUSE Enterprise Linux, use _/usr/src/packages_ directory.
+
+If you want to use your own directory structure instead of the _/root/rpmbuild,_ you can use one of the following option:
+-	Use-buildroot option and specify the custom directory during the rpmbuild
+-	Specify the topdir parameter in the rpmrc file or rpmmacros file
+
+#### 3.	Download Source Tar File
+
+Next, download the source `tar` file for the package that you want to build and save it under SOURCES directory.
+
+For this example, we are going to use the source code of _icecase_ open source application, which is a server software for streaming multi-media.  But, the steps are exactly the same for building an RPM for any other application.  You just have to download the corresponding source code for the RPM that you are trying to build.
+
+```
+#	cd /root/rpmbuild/SOURCES/
+
+#	wget http://downloads.xiph.org/releases/icecast/icecast-2.3.3.tar.gz
+
+#	ls -l
+
+#	-rw-r--r--	1	root	root	icecast-2.3.3.tar.gz
+```
+#### 4.	Create the SPEC File
+
+In this step, we direct RPM in the build process by creating a `spec` file.  The `spec` file usually consists of the following eight different sections:
+
+1.	_Preamble -_ The preamble section contains information about the package being built and define any dependencies to the package.  In general, the preamble consists of entries, one per line, that start with a tag followed by a colon, and then some information.
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
