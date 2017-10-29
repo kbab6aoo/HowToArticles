@@ -177,9 +177,9 @@ In % install section, the line below the %install that says `make install` is us
 
 Once the SPEC file is ready, you can start building your rpm with `rpm-b` command.  the `-b` option is used to perform all the phases of the build process.  If you see any errors during this phase, then you need to resolve it before reattempting again.  The errors will be usually of library dependencies and you can download and install them as necessary.
 	
-	#	cd /root/rpmbuild/SPECS
+	#  cd /root/rpmbuild/SPECS
 
-	#	rpmbuild -ba icecast.spec
+	#  rpmbuild -ba icecast.spec
 	Executing(%prep): /bin/sh -e /var/tmp/rpm-tmp.Kohe4t
 	+ umask 022
 	+ cd /root/rpmbuild/BUILD
