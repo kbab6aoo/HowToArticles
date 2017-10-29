@@ -103,7 +103,7 @@ Usually the %build section is an _sh_ script.
 8.	_%clean -_ This section instructs the RPM to clean up any files that are not part of the application's normal build area.  Lets say for example, if the application creates a temporary directory structure in _/tmp/_ as part of its build, it will not be removed. By adding a _sh_ script in %clean section, the directory can be removed after the build process is completed.
 
 Here is the SPEC file that was created for the _icecast_ application to build an RPM file
->#### cat /root/rpmbuild/SPECS/icecast.spec
+#### cat /root/rpmbuild/SPECS/icecast.spec
     Name:		icecast
     Version:	2.3.3
     Release:	0
