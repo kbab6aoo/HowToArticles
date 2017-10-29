@@ -98,14 +98,11 @@ Usually the %build section is an _sh_ script.
 
 6.	_%install -_ the % install section is also 
 
-<blockquote>
-    <h2>Blockquoted header</h2>
-
-    <p>This is blockquoted text.</p>
-
-    <p>This is a second paragraph within the blockquoted text.</p>
-
-</blockquote>
+> ## Blockquoted header
+>
+> This is blockquoted text.
+>
+> This is a second paragraph within the blockquoted text.
 
 
 
