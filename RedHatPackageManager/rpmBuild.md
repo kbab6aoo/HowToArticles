@@ -114,7 +114,9 @@ Here is the SPEC file that was created for the _icecast_ application to build an
 
 If you want to mark something as code, indent it by 4 spaces.
 
-Name:<p>This has been indented 4 spaces.</p>
+    this is code
+    ssssss
+    ssss
 
 
 
