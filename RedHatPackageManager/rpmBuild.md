@@ -105,6 +105,7 @@ Usually the %build section is an _sh_ script.
 Here is the SPEC file that was created for the _icecast_ application to build an RPM file
 
     cat /root/rpmbuild/SPECS/icecast.spec
+
     Name:		icecast
     Version:	2.3.3
     Release:	0
