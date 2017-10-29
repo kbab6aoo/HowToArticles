@@ -121,7 +121,8 @@ Here is the SPEC file that was created for the _icecast_ application to build an
 
     %description
     Icecast is a streaming media server which currently supports Ogg Vorbis and MP3 audio streams.  
-    It can be used to create an Internet Radio station or a privately running jukebox and many things in between.  It is very versatile in that new formats can be added relatively easily and supports open standards for communication and interaction.
+    It can be used to create an Internet Radio station or a privately running jukebox and many things in between.  
+    It is very versatile in that new formats can be added relatively easily and supports open standards for communication and interaction.
 
     %prep
     %setup -q -n %{name}-%{version}
