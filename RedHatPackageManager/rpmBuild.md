@@ -27,7 +27,7 @@ It is usually enabled with all the options for installing the package that are p
 
 Let us see how to create a simple source BIN RPM package using a `tar` file.
 
-If you are new to rpm packaging, you might want to first understand hot to use rpm command to install, upgrade and remove packages on CentOS or REDHat.
+If you are new to rpm packaging, you might want to first understand how to use rpm command to install, upgrade and remove packages on CentOS or REDHat.
 
 #### 1.	Install rpm-build 
 
@@ -172,6 +172,27 @@ In %build section, you will see the CFLAGS with configure options that defines t
 Below that line, you will see the make utility which determines the list of files that needs to be compiled and compiles them appropriately.  
 
 In % install section, the line below the %install that says `make install` is used to take the binaries compiled from the previous steps and installs or copies them to the appropriate locations so they can be accessed.  
+
+#### 5.	Create the SPEC File
+
+Once the SPEC file is ready, you can start building your rpm with `rpm-b` command.  the `-b` option is used to perform all the phases of the build process.  If you see any errors during this phase, then you need to resolve it before reattempting again.  The errors will be usually of library dependencies and you can download and install them as necessary.
+	
+	#	cd /root/rpmbuild/SPECS
+
+	#	rpmbuild -ba icecast.spec
+	Executing(%prep): /bin/sh -e /var/tmp/rpm-tmp.Kohe4t
+	+ umask 022
+	+ cd /root/rpmbuild/BUILD
+	+ cd /root/rpmbuild/BUILD
+	+ rm -rf icecast-2.3.3
+	+ /usr/bin/gzip -dc /root/rpmbuild/SOURCES/icecast-2.3.3.tar.gz
+	+ /bin/tar -xf -
+	+ STATUS=0
+	+ '[' 0 ne 0 ']'
+	+ cd icecast-2.3.3
+	+ /bin/chmod -Rf a+rX,u+w,g-w,o-w .
+	+ exit 0
+
 
 
 
