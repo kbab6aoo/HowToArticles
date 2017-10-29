@@ -31,11 +31,16 @@ If you are new to rpm packaging, you might want to first understand hot to use r
 
 #### 1.	Install rpm-build 
 
-To build an rpm file
+To build an rpm file based on the `spec` file that we just created, we need to use `rpm-build` command.
+
+rpm-build command is part pf the `rpm-build` package. 
 
 #### 2.	RPM Build Directories		
 
 rpm-build will 
+
+<span style="color:red">some **This is Red Bold.** text</span>
+
 
 
 
