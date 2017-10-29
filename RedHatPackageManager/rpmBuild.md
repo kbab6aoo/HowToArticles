@@ -3,7 +3,7 @@ Sometimes you might have access to an open source application source code but mi
 
 In that situation, you can either compile the source code and install the application from source code, or build a RPM file from source code yourself, and use the RPM file to install the application.
 
-Ther might also be a situation where you want to build a cusotm RPM Package for the application that you developed.
+There might also be a situation where you want to build a custom RPM Package for the application that you developed.
 
 ## This Article explains how to build a RPM package from the source code.
 
@@ -15,3 +15,12 @@ The `RPM` performs the following tasks during the build process
 
 1.	Executes the commands and macros mentioned in the prep section of the `spec` file
 2.	Checks the content of the first line
+3.	Executes the commands and macros in the build section of the `spec` file
+4.	Creates the binary package file
+5.	Create the source package file
+
+Once the `RPM` execute the above steps, it creates the binary package file and source package file.
+
+The binary package file consists of all source files along with any additional information to install or uninstall the package.
+
+It is usually enabled with all the options for installing the package that are platform specific.  Binary package files contain complete applications of libraries of functions compiled for a particular architecture.  The source package usually consists of the original compressed `tar` file, `spec` file and the patches which are required to create the binary package file.
