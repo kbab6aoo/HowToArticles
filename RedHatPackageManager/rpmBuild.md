@@ -13,5 +13,5 @@ The `SPEC` file typically contains instructions on how to build an `RPM`, what f
 
 The `RPM` performs the following tasks during the build process
 
-	1.	Executes the commands and macros mentioned in the prep section of the `spec` file
-	2.	Checks the content of the first line
+1.	Executes the commands and macros mentioned in the prep section of the `spec` file
+2.	Checks the content of the first line
