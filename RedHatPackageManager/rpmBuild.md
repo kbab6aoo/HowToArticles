@@ -82,7 +82,7 @@ For this example, we are going to use the source code of _icecase_ open source a
 #	-rw-r--r--	1	root	root	icecast-2.3.3.tar.gz
 ```
 #### 4.	Create the SPEC File
--	-	-	
+
 In this step, we direct RPM in the build process by creating a `spec` file.  The `spec` file usually consists of the following eight different sections:
 
 1.	_Preamble -_ The preamble section contains information about the package being built and define any dependencies to the package.  In general, the preamble consists of entries, one per line, that start with a tag followed by a colon, and then some information.
@@ -93,7 +93,7 @@ In this step, we direct RPM in the build process by creating a `spec` file.  The
 
 4.	_%description -_ the description section usually contains description about the package.
 
-5.	_%build -_ This is the section that is responsible for performing the build.
+5.	_%build -_ This is the section that is responsible for performing the build.<br>
 Usually the %build section is an _sh_ script.
 
 6.	_%install -_ the % install section is also 
