@@ -120,8 +120,34 @@ Here is the SPEC file that was created for the _icecast_ application to build an
     BuildRoot:	%{_tmppath}/%{name}-root
 
     %description
-    Icecast is 
+    Icecast is a streaming media server which currently supports Ogg Vorbis and MP3 audio streams.  It can be used to create an Internet Radio station or a privately running jukebox and many things in between.  It is very versatile in that new formats can be added relatively easily and supports open standards for communication and interaction.
 
+    %prep
+    %setup -q -n %{name}-%{version}
+
+    %build
+    CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{_prefix} --mandir=%{_mandir} --sysconfdir=/etc
+
+    make
+
+    %install
+    [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
+
+    make DESTDIR=$RPM_BUILD_ROOT install
+    rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/%{name}
+
+    %clean
+    [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
+
+    %files
+    %defattr(-,root,root)
+    %doc README AUTHOR COPYING NEWS TODO ChangeLog
+    %doc doc/*.html
+    %doc doc/*.jpg
+    %doc doc/*.css
+    %config(noreplace) /etc/%{name}.xml
+    %{_bindir}/icecast
+    %{_prefix}/share/icecast/*
 
 
 
