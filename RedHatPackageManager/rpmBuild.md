@@ -109,7 +109,18 @@ Here is the SPEC file that was created for the _icecast_ application to build an
     Name:		icecast
     Version:	2.3.3
     Release:	0
-    Summary:	Xiph Streaming Media Server that supports multiple Formats
+    Summary:	Xiph Streaming Media Server that supports multiple formats
+    Group:		Applications/Multimedia
+    License:	GPL
+    URL:		http://www.icecast.org/
+    Vendor:		Xiph.org Foundation team@icecast.org
+    Source:		http://downloads.us.xiph.org/releases/icecast/%{name}-%{version}.tar.gz
+    Prefix:		%{_prefix}
+    Packager:	Yomi Ogunyinka
+    BuildRoot:	%{_tmppath}/%{name}-root
+
+    %description
+    Icecast is 
 
 
 
