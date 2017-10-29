@@ -33,13 +33,18 @@ If you are new to rpm packaging, you might want to first understand hot to use r
 
 To build an rpm file based on the `spec` file that we just created, we need to use `rpm-build` command.
 
-rpm-build command is part pf the `rpm-build` package. 
+`rpm-build` command is part pf the `rpm-build` package.  Install it as shown below
+
+```
+# yum install rpm-build
+
+```
 
 #### 2.	RPM Build Directories		
 
 rpm-build will 
 
-<span style="color:red">some **This is Red Bold.** text</span>
+
 
 
 
