@@ -236,7 +236,7 @@ This will also install the following dependencies:
 -	libgcryt
 -	libgcryt-devel
 -	libgpg-error-devel
-*Error 2: libvorbis Error*
+**Error 2: libvorbis Error**
 
 	checking for libvorbis... configure: error: must have Ogg Vorbis v1.0 or above installed
 	error: Bad exit status from /var/tmp/rpm-tmp.m4Gk3f (%build)
