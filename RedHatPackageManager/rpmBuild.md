@@ -192,6 +192,86 @@ Once the SPEC file is ready, you can start building your rpm with `rpm-b` comman
 	+ cd icecast-2.3.3
 	+ /bin/chmod -Rf a+rX,u+w,g-w,o-w .
 	+ exit 0
+	Executing(%build): /bin/sh -e /var/tmp/rpm-tmp.ynm7H7
+	+ umask 022
+	+ cd /root/rpmbuild/BUILD
+	+ cd icecast-2.3.3
+	+ CFLAGS='-02 -g'
+	+ ./configure --prefix=usr --mandir=/usr/share/man --sysconfdir=/etc
+	checking for BSD-compatible install... /usr/bin/install -c
+	checking whether build environment is sane... yes
+	checking for a thread-safe mkdir -p... /bin/mkdir -p
+	checking for gawk... gawk
+	checking whether to enable maintainer-specific portions of Makefiles... no
+	checking for gcc... gcc
+	..
+	..
+	..
+	Wrote: /root/rpmbuild/SRPMS/icecast-2.3.3-0src.rpm
+	Wrote: /root/rpmbuild/RPMS/x86_64/icecast-2.3.3-0.x86_64.rpm
+	Executing(%clean): /bin/sh -e /var/tmp/rpm-tmp.dzahrv
+	+ umask 022
+	+ cd /root/rpmbuild/BUILD
+	+ cd icecast-2.3.3
+	+ '[' /root/rpmbuild/BUILDROOT/icecast-2.3.3-0.x86_64 '!=' / ']'
+	+ rm -rf /root/rpmbuild/BUILDROOT/icecast-2.3.3-0.x86_64
+	+ exit 0
+_Note:_ If you are using SuSE Linux, if rpmbuild is not available, try using `rpm -ba` to build the rpm package.  
+
+During the above rpmbuild install, you might notice the following error messages:
+
+*Error 1: XSLT Configuration could not be found*  
+
+	checking for xslt-config... no
+	configure: error: XSLT configuration could not be found
+	error: Bad exit status for /var/tmp/rpm-tmp.8J0ynG (%build)
+	RPM build errors:
+		Bad exit status from /var/tmp/rpm-tmp.8J0ynG (%build)
+
+*Solution 1: Install libxstl-devel*
+For the xslt-config, you need to install libxstl-devel package as shown below.
+
+	yum install libxstl-devel
+This will also install the following dependencies:
+-	libgcryt
+-	libgcryt-devel
+-	libgpg-error-devel
+*Error 2: libvorbis Error*
+
+	checking for libvorbis... configure: error: must have Ogg Vorbis v1.0 or above installed
+	error: Bad exit status from /var/tmp/rpm-tmp.m4Gk3f (%build)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
