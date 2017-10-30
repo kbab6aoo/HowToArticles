@@ -60,7 +60,7 @@ drwx-xr-x	2	root	root	SOURCES/
 drwx-xr-x	2	root	root	SPECS/
 drwx-xr-x	2	root	root	SRPMS/
 ```
-_Note:_ The above directory structure is for both CentOS and RedHat when using `rpm-build` package.  You can also use `_usr/src/redhat_` directory, but you need to change the `'topdir'` parameter accordingly during the rpm build.  If you are doing this SUSE Enterprise Linux, use _/usr/src/packages_ directory.
+_Note:_ The above directory structure is for both CentOS and RedHat when using `rpm-build` package.  You can also use `usr/src/redhat` directory, but you need to change the `'topdir'` parameter accordingly during the rpm build.  If you are doing this SUSE Enterprise Linux, use _/usr/src/packages_ directory.
 
 If you want to use your own directory structure instead of the _/root/rpmbuild,_ you can use one of the following option:
 -	Use-buildroot option and specify the custom directory during the rpmbuild
@@ -262,7 +262,28 @@ Once the rpmbuild is completed, you can verify the source rpm and binary rpm is 
 #### 7. Install the RPM File to Verify
 As a final step, you can install the binary rpm to verify that it installs successfully and all the dependencies are resolved.
 
+	# rpm -ivh /root/rpmbuild/RPMS/x86_64/icecast-2.3.3-0.x86_64.rpm
+	D: ============= /root/rpmbuild/RPMS/x86_64/icecast-2.3.3-0.x86_64.rpm
+	D: loading keyring from pubkeys in /var/lib/rpm/pubkeys/*.key
+	D: couldn't find any keys in /var/lib/rpm/pubkeys/*.key
+	D: loading keyring from rpmdb
+	D: opening db environment /var/lib/rpm cdb:mpool:joinenv
+	D: opening db index 	  /var/lib/rpm/Packages rdonly mode=0x0
+	D:	read h#		210 Header sanity check: OK
+	D: added key gpg-pubkey-c105b9de-4e0fd3a3 to keyring
+	D: Using legacy gpg-pubkey(s) from rpmdb
+	D: Expected size:		349181	=	lead(96)+sigs(180)+pad(4)+data(348901)
+	D: 	 Actual size:		349181
+	D: =========== relocations
+	D:		added binary package [0]
+	D: found 0 source and 1 binary packages
+	D: ========== +++ icecast-2.3.3-0 x86_64/linux 0x2
+	..
+	..
+After the above installation, you can verify that your custom rpm file was installed successfully as shown above.
 
+	# rpm -qa icecast
+	icecast-2.3.3-0.x86_64 
 
 
 
