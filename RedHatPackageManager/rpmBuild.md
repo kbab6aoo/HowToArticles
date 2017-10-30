@@ -1,4 +1,4 @@
-# Steps to Build a RPM from Source on CentOs / RedHat
+# Steps to Build an RPM from Source on CentOs / RedHat
 Sometimes you might have access to an open source application source code but might not have the RPM file to install it on your system.
 
 In that situation, you can either compile the source code and install the application from source code, or build a RPM file from source code yourself, and use the RPM file to install the application.
@@ -242,9 +242,25 @@ This will also install the following dependencies:
 	checking for libvorbis... configure: error: must have Ogg Vorbis v1.0 or above installed
 	error: Bad exit status from /var/tmp/rpm-tmp.m4Gk3f (%build)
 
+**Solution 2: Install libvorbis-devel**
+For the Ogg Vorbis v1.0, install the libvorbis-devel package as shown below:
 
+	yum install libvorbis-devel  
+This will also install the following dependencies:
+-	libogg
+-	libogg-devel
+-	libvorbis  
 
+#### 6. Verify the Source and Binary RPM Files
+Once the rpmbuild is completed, you can verify the source rpm and binary rpm is created in the below directories.
 
+	# ls -l /root/rpmbuild/SRPMS/
+	-rw-r--r-- 1 	root 	root 	icecast-2.3.3-0.src.rpm
+	# ls -l /root/rpmbuild/RPMS/x86_64/
+	-rw-r--r-- 		root 	root 	icecast-2.3.3-0.src.rpm
+
+#### 7. Install the RPM File to Verify
+As a final step, you can install the binary rpm to verify that it installs successfully and all the dependencies are resolved.
 
 
 
