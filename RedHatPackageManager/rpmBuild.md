@@ -220,7 +220,7 @@ _Note:_ If you are using SuSE Linux, if rpmbuild is not available, try using `rp
 
 During the above rpmbuild install, you might notice the following error messages:
 
-*Error 1: XSLT Configuration could not be found*  
+**Error 1: XSLT Configuration could not be found**  
 
 	checking for xslt-config... no
 	configure: error: XSLT configuration could not be found
@@ -236,6 +236,7 @@ This will also install the following dependencies:
 -	libgcryt
 -	libgcryt-devel
 -	libgpg-error-devel  
+
 **Error 2: libvorbis Error**
 
 	checking for libvorbis... configure: error: must have Ogg Vorbis v1.0 or above installed
