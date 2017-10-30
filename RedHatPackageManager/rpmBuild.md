@@ -228,7 +228,7 @@ During the above rpmbuild install, you might notice the following error messages
 	RPM build errors:
 		Bad exit status from /var/tmp/rpm-tmp.8J0ynG (%build)
 
-*Solution 1: Install libxstl-devel*
+**Solution 1: Install libxstl-devel**  
 For the xslt-config, you need to install libxstl-devel package as shown below.
 
 	yum install libxstl-devel
@@ -236,7 +236,7 @@ This will also install the following dependencies:
 -	libgcryt
 -	libgcryt-devel
 -	libgpg-error-devel
-**Error 2: libvorbis Error**
+**Error 2: libvorbis Error**  
 
 	checking for libvorbis... configure: error: must have Ogg Vorbis v1.0 or above installed
 	error: Bad exit status from /var/tmp/rpm-tmp.m4Gk3f (%build)
