@@ -1,4 +1,4 @@
-#Getting Started with Varnish Cache
+# Getting Started with Varnish Cache
 
 Does your server need to handle lots of traffic? Caching is one of the best ways to maximize the output of your Server. But what is caching, exactly?
 
