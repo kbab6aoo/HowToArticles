@@ -4,7 +4,7 @@ Does your server need to handle lots of traffic? Caching is one of the best ways
 
 The idea behind caching is that your server shouldn’t have to regenerate the same dynamic content from scratch every time it’s accessed. Save your server resources by putting a caching proxy like **Varnish** in front of your web service to accelerate responses to HTTP requests and reduce server workload.  
 
-![alt text](https://github.com/kbab6aoo/HowToArticles/blob/myRedHatPackageManager/HowToArticles/varnish.png)  
+![alt text](https://github.com/kbab6aoo/HowToArticles/blob/myRedHatPackageManager/images/varnish.png)   
 
 Varnish works by handling requests before they make it your backend; whether your backend is Apache, Nginx, or any other webserver.  If it doesn't have a request cached, it will forward the request to your backend and then cache its output.  You can then store these cache requests to your backend and then cache its output.  You an then store these cached requests in memory, so they are retrieved by and delivered to clients much faster than they would be from disk.  
 
@@ -78,7 +78,7 @@ This subroutine is called after request is fetched from the backend.  In this ex
 
 Now that we have configured Varnish, use this section to make it your web server by swapping the ports your web server and Varnish listen on.  As illustrated in the graphic below, all web traffic will be served from Varnish cache and refreshed every two minutes or the interval configured above:  
 
-![alt text](https://github.com/kbab6aoo/HowToArticles/blob/myRedHatPackageManager/HowToArticles/WebTrafficDiagram.png)  
+![alt text](![alt text](https://github.com/kbab6aoo/HowToArticles/blob/myRedHatPackageManager/images/WebTrafficDiagram.png)  
 
 To allow Varnish to communicate with our web server, we will need to modify a few settings in the virtual host file for your site.
 
