@@ -75,12 +75,49 @@ File excerpt: **/etc/varnish/user.vcl**
 This subroutine is called after request is fetched from the backend.  In this example, we are setting the TTL variable on the object to five minutes (`5m`).  Values can be in seconds (`120s`), minutes (`2m`) or (`2h`).  Your ideal TTL may vary dependending on how often the content of your site is updated, and the amount of traffic you need to handle.
 
 ## Take Varnish Live: Configure Web Traffic to Serve Cached Content
+
 Now that we have configured Varnish, use this section to make it your web server by swapping the ports your web server and Varnish listen on.  As illustrated in the graphic below, all web traffic will be served from Varnish cache and refreshed every two minustes or the interval configured above:  
 
-![alt text](https://github.com/kbab6aoo/HowToArticles/blob/myRedHatPackageManager/HowToArticles/WebTrafficDiagram.png)
+![alt text](https://github.com/kbab6aoo/HowToArticles/blob/myRedHatPackageManager/HowToArticles/WebTrafficDiagram.png)  
 
-To allow Varnish to communicate with our web server, we will nedd to modify
+To allow Varnish to communicate with our web server, we will need to modify a few settings in the virtual host file for your site.
 
+1.	If using Nginx, skip thi step.  If using Apache, change the port Apache listens on.  Edit `/etc/apache2/ports.conf` and any virtual hosts.  Open `ports.conf` and change the `80` in `Listen 80` to another port.  Port `8080` will be used in for our example.
+
+		Listen 8080
+
+2.	Modify your virtual host file or server block to listen on port 8080:
+
+Apache:
+
+File excerpt: /etc/apache2/sites-available/example.com.conf
+	
+	<VirtualHost *:8080>
+
+Nginx:
+
+File excerpt: /etc/nginx/sites-available/example.com
+
+	listen 8080;
+	listen [::]:8080;
+
+3.	Check your `/etc/varnsih/user.vc/ file and make sure the `backend default` is set to use port 8080:
+
+	backend default	{
+		.host = "127.0.0.1";
+		.port = "8080";
+	}
+
+4. Reload the configuration for your web server:
+
+	sudo systemctl reload apache2
+	sudo systemctl restart nginx
+
+5.	Start Varnish
+
+	sudo systemctl start varnish
+
+Once it has been started, Varnish will be live to site visitors and content will be served from the cache whenever possible, according to your configuration.
 
 
 
