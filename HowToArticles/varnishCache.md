@@ -38,7 +38,7 @@ Varnish is configured via Varnish Configuration Language (VCL).  Once the config
 
 Recent versions of Debian (8 and newer) and Ubuntu (15.04 and newer) require Varnish Configuration through systemd.
 
-1.	Open the `varnish.service` file, set the port, configuration file, and _memory allocation_ on the `ExecStart` line.  In the following example, these values are: `-a :80`, `/etc/varnish/user.vc/` and `malloc,1G`.
+1.	Open the `varnish.service` file, set the port, configuration file, and _memory allocation_ on the `ExecStart` line.  In the following example, these values are: `-a :80`, `/etc/varnish/user.vc/` and `malloc,1G`.  
 File excerpt: **/lib/systemd/system/varnish.service**
 
 		ExecStart=/usr/sbin/varnishd -j unix,user=vcache -F -a :80 -T localhost:6082 -f /etc/varnish/user.vcl -S /etc/varnish/secret -s malloc,1G
