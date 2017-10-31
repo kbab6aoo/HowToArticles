@@ -92,30 +92,30 @@ Apache:
 
 File excerpt: /etc/apache2/sites-available/example.com.conf
 	
-	<VirtualHost *:8080>
+		<VirtualHost *:8080>
 
 Nginx:
 
 File excerpt: /etc/nginx/sites-available/example.com
 
-	listen 8080;
-	listen [::]:8080;
+		listen 8080;
+		listen [::]:8080;
 
-3.	Check your `/etc/varnsih/user.vc/ file and make sure the `backend default` is set to use port 8080:
+3.	Check your `/etc/varnish/user.vcl` file and make sure the `backend default` is set to use port 8080:
 
-	backend default	{
-		.host = "127.0.0.1";
-		.port = "8080";
-	}
+		backend default	{
+			.host = "127.0.0.1";
+			.port = "8080";
+		}
 
 4. Reload the configuration for your web server:
 
-	sudo systemctl reload apache2
-	sudo systemctl restart nginx
+		sudo systemctl reload apache2
+		sudo systemctl restart nginx
 
 5.	Start Varnish
 
-	sudo systemctl start varnish
+		sudo systemctl start varnish
 
 Once it has been started, Varnish will be live to site visitors and content will be served from the cache whenever possible, according to your configuration.
 
