@@ -108,7 +108,7 @@ File excerpt: /etc/nginx/sites-available/example.com
 		.port = "8080";
 	}
 
-4. Reload the configuration for your web server:
+4. Reload the configuration for your web server
 
 	sudo systemctl reload apache2
 	sudo systemctl restart nginx
