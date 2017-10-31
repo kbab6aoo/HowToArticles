@@ -6,7 +6,7 @@ The idea behind caching is that your server shouldn’t have to regenerate the s
 
 ![alt text](https://github.com/kbab6aoo/HowToArticles/blob/myRedHatPackageManager/HowToArticles/varnish.png)  
 
-Varnish works by handling requests before they make it your backend; whether your backend is Apache, Nginx, or any other webserver.  If it doesn't have a request cached, it will forward the request to your backend and then cache its output.  You can then store these cache requests to your backend and then chace its output.  You an then store these cached requests in memory, so they are retrieved by and delivered to clients much faster than they would be from disk.  
+Varnish works by handling requests before they make it your backend; whether your backend is Apache, Nginx, or any other webserver.  If it doesn't have a request cached, it will forward the request to your backend and then cache its output.  You can then store these cache requests to your backend and then cache its output.  You an then store these cached requests in memory, so they are retrieved by and delivered to clients much faster than they would be from disk.  
 
 Additionally, Varnish cache can be used as part of a highly available environment, which ensures uptime during high traffic loads to server failures.  
 
@@ -72,11 +72,11 @@ File excerpt: **/etc/varnish/user.vcl**
 			set beresp.ttl = 5m;
 		}
 
-This subroutine is called after request is fetched from the backend.  In this example, we are setting the TTL variable on the object to five minutes (`5m`).  Values can be in seconds (`120s`), minutes (`2m`) or (`2h`).  Your ideal TTL may vary dependending on how often the content of your site is updated, and the amount of traffic you need to handle.
+This subroutine is called after request is fetched from the backend.  In this example, we are setting the TTL variable on the object to five minutes (`5m`).  Values can be in seconds (`120s`), minutes (`2m`) or (`2h`).  Your ideal TTL may vary depending on how often the content of your site is updated, and the amount of traffic you need to handle.
 
 ## Take Varnish Live: Configure Web Traffic to Serve Cached Content
 
-Now that we have configured Varnish, use this section to make it your web server by swapping the ports your web server and Varnish listen on.  As illustrated in the graphic below, all web traffic will be served from Varnish cache and refreshed every two minustes or the interval configured above:  
+Now that we have configured Varnish, use this section to make it your web server by swapping the ports your web server and Varnish listen on.  As illustrated in the graphic below, all web traffic will be served from Varnish cache and refreshed every two minutes or the interval configured above:  
 
 ![alt text](https://github.com/kbab6aoo/HowToArticles/blob/myRedHatPackageManager/HowToArticles/WebTrafficDiagram.png)  
 
@@ -119,15 +119,15 @@ File excerpt: /etc/nginx/sites-available/example.com
 
 Once it has been started, Varnish will be live to site visitors and content will be served from the cache whenever possible, according to your configuration.
 
-## Advanced Varnsih Configuration
+## Advanced Varnish Configuration
 The VCL allows extended control over how requests are cached, and you may need to make some modifications.  This section will go over a few common VCL configurations.  
 
-These modificatons should be made in your `user.vcl` file.
+These modifications should be made in your `user.vcl` file.
 
 ## Exclude Content from Varnish Cache
-You may want to exclude specific parts of your website from Varnsih caching, particularly if there is a non-public or administration portion.  To do this, we need to access Varnish's request object for information about the request, and conditionally tell Varnish to **pass** the request through to the backend with no caching.  
+You may want to exclude specific parts of your website from Varnish caching, particularly if there is a non-public or administration portion.  To do this, we need to access Varnish's request object for information about the request, and conditionally tell Varnish to **pass** the request through to the backend with no caching.  
 
-We need to overide the `vcl_recv` subroutine in our VCL file, which is run each time Varnish receives a request, then add a conditional:
+We need to override the `vcl_recv` subroutine in our VCL file, which is run each time Varnish receives a request, then add a conditional:
 
 File excerpt: **/etc/varnish/user.vcl**  
 
@@ -140,9 +140,34 @@ File excerpt: **/etc/varnish/user.vcl**
 			}
 		}
 
-This example
+This example checks for two conditions you don't want to cache. The first is any requests for `example.com`, the second is for any URI requests that begin with `/admin`. if both of these are true, Varnish will not cache the request.
 
+## Unset Cookies
+As mentioned earlier, if Varnish detects your website is setting cookies, it assumes your site needs to interact with those cookies and shows dynamic content accordingly, and as a result, Varnish will not cache those pages.  You can override this behavior by unsetting the `Cookie` variable on Varnish's `req.http` object.  
 
+Add this line to the bottom of the `vcl_recv` section:
+
+File excerpt: **/etc/varnish/user.vcl**
+
+		unset req.http.Cookie;
+
+You may find that a particular cookie is important for displaying content or determines if your user is logged in or not.  In this case, you probably don't want to show cached content and instead, just want to send the user straight to the backend.  
+
+For this case, we will check `req.http.cookie` for a cookie `logged_in`, and if it's found, the request will be passed on to the backend with no caching.  Here's our entire `vcl_recv` subroutine thus far:
+
+File excerpt: **/etc/varnish/user.vcl**  
+
+		sub vcl_recv
+		{
+			if ((req.http == "example.com" &&
+				req.url ~"^/admin") ||
+				req.http.Cookie == "logged_in")
+			{
+				return (pass);
+			}
+
+			unset req.http.Cookie;
+		}
 
 
 
