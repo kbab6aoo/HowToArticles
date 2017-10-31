@@ -119,10 +119,28 @@ File excerpt: /etc/nginx/sites-available/example.com
 
 Once it has been started, Varnish will be live to site visitors and content will be served from the cache whenever possible, according to your configuration.
 
+## Advanced Varnsih Configuration
+The VCL allows extended control over how requests are cached, and you may need to make some modifications.  This section will go over a few common VCL configurations.  
 
+These modificatons should be made in your `user.vcl` file.
 
+## Exclude Content from Varnish Cache
+You may want to exclude specific parts of your website from Varnsih caching, particularly if there is a non-public or administration portion.  To do this, we need to access Varnish's request object for information about the request, and conditionally tell Varnish to **pass** the request through to the backend with no caching.  
 
+We need to overide the `vcl_recv` subroutine in our VCL file, which is run each time Varnish receives a request, then add a conditional:
 
+File excerpt: **/etc/varnish/user.vcl**  
+
+		sub vcl_recv
+		{
+			if (req.http == "example.com" &&
+				req.url ~"^/admin")
+			{
+				return (pass);
+			}
+		}
+
+This example
 
 
 
