@@ -9,7 +9,7 @@ Varnish works by handling requests before they make it your backend; whether you
 
 Additionally, Varnish cache can be used as part of a highly available environment, which ensures uptime during high traffic loads to server failures.  
 
-##_Before You Begin - Checklist_  
+## _Before You Begin - Checklist_  
 
 1.	Set your hostname and timezone
 2.	Secure your server and create a standard user account 
@@ -33,8 +33,15 @@ Additionally, Varnish cache can be used as part of a highly available environmen
 
 	sudo systemctl stop varnish
 
-## Configure Varnsih Backen with Systemd
-Varnish is configured via Varnish Configuration Language (VCL).  Once the configuration file is loaded by the system, Varnish translates and compiles the VCL code into a C program that runs alongside the Varnsih process.
+## Configure Varnish Backend with Systemd
+Varnish is configured via Varnish Configuration Language (VCL).  Once the configuration file is loaded by the system, Varnish translates and compiles the VCL code into a C program that runs alongside the Varnish process.  
+
+Recent versions of Debian (8 and newer) and Ubuntu (15.04 and newer) require Varnish Configuration through systemd.
+
+1.	Open the `varnish.service` file, set the port, configuration file, and _memory allocation_ on the `ExecStart` line.  In the following example, these values are: `-a :80`, `/etc/varnish/user.vc/` and `malloc,1G`.
+File excerpt: **/lib/systemd/system/varnish.service**
+
+	ExecStart=/usr/sbin/varnishd -j unix,user=vcache -F -a :80 -T localhost:6082 -f /etc/varnish/user.vcl -S /etc/varnish/secret -s malloc,1G
 
 
 
