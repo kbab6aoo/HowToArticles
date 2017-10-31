@@ -16,7 +16,7 @@ Additionally, Varnish cache can be used as part of a highly available environmen
 3.	Install and configure a web server
 4.	Update your system
 	
-	sudo apt update && sudo apt upgrade
+		sudo apt update && sudo apt upgrade
 >### Note
 >This guide is written for a non-root user.  Commands that required elevated privileges are prefixed with `sudo`.
 
@@ -24,14 +24,14 @@ Additionally, Varnish cache can be used as part of a highly available environmen
 
 1.	Install Varnish with the package manager:
 
-	sudo apt install varnish
+		sudo apt install varnish
 2.	To avoid having your configuration overwritten by future updates, make a copy of the default:
 
 		cd /etc/varnish
 		sudo cp default.vcl user.vcl
 3.	Stop the Varnish Service while making configuration changes:
 
-	sudo systemctl stop varnish
+		sudo systemctl stop varnish
 
 ## Configure Varnish Backend with Systemd
 Varnish is configured via Varnish Configuration Language (VCL).  Once the configuration file is loaded by the system, Varnish translates and compiles the VCL code into a C program that runs alongside the Varnish process.  
@@ -41,7 +41,7 @@ Recent versions of Debian (8 and newer) and Ubuntu (15.04 and newer) require Var
 1.	Open the `varnish.service` file, set the port, configuration file, and _memory allocation_ on the `ExecStart` line.  In the following example, these values are: `-a :80`, `/etc/varnish/user.vc/` and `malloc,1G`.
 File excerpt: **/lib/systemd/system/varnish.service**
 
-	ExecStart=/usr/sbin/varnishd -j unix,user=vcache -F -a :80 -T localhost:6082 -f /etc/varnish/user.vcl -S /etc/varnish/secret -s malloc,1G
+		ExecStart=/usr/sbin/varnishd -j unix,user=vcache -F -a :80 -T localhost:6082 -f /etc/varnish/user.vcl -S /etc/varnish/secret -s malloc,1G
 
 
 
