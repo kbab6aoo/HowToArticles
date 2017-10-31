@@ -75,7 +75,7 @@ File excerpt: **/etc/varnish/user.vcl**
 This subroutine is called after request is fetched from the backend.  In this example, we are setting the TTL variable on the object to five minutes (`5m`).  Values can be in seconds (`120s`), minutes (`2m`) or (`2h`).  Your ideal TTL may vary dependending on how often the content of your site is updated, and the amount of traffic you need to handle.
 
 ## Take Varnish Live: Configure Web Traffic to Serve Cached Content
-![alt text](https://github.com/kbab6aoo/HowToArticles/blob/myRedHatPackageManager/HowToArticles/webtrafficdiagram.png)
+![alt text](https://github.com/kbab6aoo/HowToArticles/blob/myRedHatPackageManager/HowToArticles/WebTrafficDiagram.png)
 
 
 
