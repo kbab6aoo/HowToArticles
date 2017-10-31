@@ -101,7 +101,7 @@ File excerpt: /etc/nginx/sites-available/example.com
 	listen 8080;
 	listen [::]:8080;
 
-3.	Check your `/etc/varnish/user.vcl` file and make sure the `backend default` is set to use port 8080:
+3.	Check your `/etc/varnish/user.vcl` file and make sure the `backend default` is set to use port 8080:  
 
 	backend default	{
 		.host = "127.0.0.1";
