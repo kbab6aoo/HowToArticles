@@ -54,7 +54,7 @@ File excerpt: **/lib/systemd/system/varnish.service**
 ## Modify Custom Varnish Configuration VCL
 
 Now that we have pointed the Varnish start script to `user.vcl` we need to configure that file to serve the content Varnish gets from the web server.  Edit the `backend default{` section of `/etc/varnish/user.vcl` to tell Varnish where to get the server (backend) content.  The example below uses port `8080`, a web server setting you will configure later:  
-File excerpt: **/etc/varnish/user.vcl**
+File excerpt: **/etc/varnish/user.vcl**  
 		backend default {
 			.host = "127.0.0.1";
 			.port = "8080";
