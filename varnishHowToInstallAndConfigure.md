@@ -169,6 +169,11 @@ File excerpt: **/etc/varnish/user.vcl**
 			unset req.http.Cookie;
 		}
 
+## To cache POST, or Not to Cache POST?
+
+It is likely you don't want to cache POST requests, because they probably need to interact with the backend to gather dynamic data or set up a user's session.  In our example above, you chose not to cache requests if the user is logged in.  This section ensures a user can log in to begin with.  An easy approach is to skip POST requests all together.  
+
+To accomplish this, add the following condition to the existing return (pass) block inside of vcl_recv:
 
 
 
