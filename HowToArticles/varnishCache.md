@@ -110,8 +110,8 @@ File excerpt: /etc/nginx/sites-available/example.com
 
 4. Reload the configuration for your web server
 
-	sudo systemctl reload apache2
-	sudo systemctl restart nginx
+		sudo systemctl reload apache2
+		sudo systemctl restart nginx
 
 5.	Start Varnish
 
