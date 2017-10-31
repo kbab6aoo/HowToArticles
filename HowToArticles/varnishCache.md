@@ -84,7 +84,7 @@ To allow Varnish to communicate with our web server, we will need to modify a fe
 
 1.	If using Nginx, skip thi step.  If using Apache, change the port Apache listens on.  Edit `/etc/apache2/ports.conf` and any virtual hosts.  Open `ports.conf` and change the `80` in `Listen 80` to another port.  Port `8080` will be used in for our example.
 
-		Listen 8080
+	Listen 8080
 
 2.	Modify your virtual host file or server block to listen on port 8080:
 
@@ -92,26 +92,26 @@ Apache:
 
 File excerpt: /etc/apache2/sites-available/example.com.conf
 	
-		<VirtualHost *:8080>
+	<VirtualHost *:8080>
 
 Nginx:
 
 File excerpt: /etc/nginx/sites-available/example.com
 
-		listen 8080;
-		listen [::]:8080;
+	listen 8080;
+	listen [::]:8080;
 
 3.	Check your `/etc/varnish/user.vcl` file and make sure the `backend default` is set to use port 8080:
 
-		backend default	{
-			.host = "127.0.0.1";
-			.port = "8080";
-		}
+	backend default	{
+		.host = "127.0.0.1";
+		.port = "8080";
+	}
 
 4. Reload the configuration for your web server:
 
-		sudo systemctl reload apache2
-		sudo systemctl restart nginx
+	sudo systemctl reload apache2
+	sudo systemctl restart nginx
 
 5.	Start Varnish
 
