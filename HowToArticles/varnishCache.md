@@ -27,8 +27,8 @@ Additionally, Varnish cache can be used as part of a highly available environmen
 	sudo apt install varnish
 2.	To avoid having your configuration overwritten by future updates, make a copy of the default:
 
-	cd /etc/varnish
-	sudo cp default.vcl user.vcl
+		cd /etc/varnish
+		sudo cp default.vcl user.vcl
 3.	Stop the Varnish Service while making configuration changes:
 
 	sudo systemctl stop varnish
