@@ -9,7 +9,7 @@ Varnish works by handling requests before they make it your backend; whether you
 
 Additionally, Varnish cache can be used as part of a highly available environment, which ensures uptime during high traffic loads to server failures.  
 
-_Before You Begin - Checklist_  
+##_Before You Begin - Checklist_  
 
 1.	Set your hostname and timezone
 2.	Secure your server and create a standard user account 
@@ -17,7 +17,43 @@ _Before You Begin - Checklist_
 4.	Update your system
 	
 	sudo apt update && sudo apt upgrade
->## Note
+>### Note
 >This guide is written for a non-root user.  Commands that required elevated privileges are prefixed with `sudo`.
 
-Install and Configure Varnish Cache
+#### Install and Configure Varnish Cache
+
+1.	Install Varnish with the package manager:
+
+	sudo apt install varnish
+2.	To avoid having your configuration overwritten by future updates, make a copy of the default:
+
+	cd /etc/varnish
+	sudo cp default.vcl user.vcl
+3.	Stop the Varnish Service while making configuration changes:
+
+	sudo systemctl stop varnish
+
+## Configure Varnsih Backen with Systemd
+Varnish is configured via Varnish Configuration Language (VCL).  Once the configuration file is loaded by the system, Varnish translates and compiles the VCL code into a C program that runs alongside the Varnsih process.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
