@@ -46,7 +46,7 @@ File excerpt: **/lib/systemd/system/varnish.service**
 
 2.	The configuration above allocates a maximum of 1GB of memory to store its cache items.  If you need to adjust this allocation, edit the number in `-s malloc,1G`.  For example, to allocate 2GB of memory:
 
-		`-s malloc,1G
+		-s malloc,1G
 3.	Reload systemd:
 
 		sudo systemctl daemon-reload
