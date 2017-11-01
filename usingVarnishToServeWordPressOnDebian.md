@@ -471,25 +471,21 @@ Alternately, if you don’t have a commercially-signed SSL certificate (issued b
 
 Now, let’s review the key points of the previous two server blocks:
 
-ssl_session_cache shared:SSL:20m; creates a 20MB cache shared between all worker processes. This cache is used to store SSL session parameters to avoid SSL handshakes for parallel and subsequent connections. 1MB can store about 4000 sessions, so adjust this cache size according to the expected traffic for your website.
-ssl_session_timeout 60m; specifies the SSL session cache timeout. Here it’s set to 60 minutes, but it can be decreased or increased, depending on traffic and resources.
-ssl_prefer_server_ciphers on; means that when an SSL connection is established, the server ciphers are preferred over client ciphers.
-add_header Strict-Transport-Security "max-age=31536000"; tells web browsers they should only interact with this server using a secure HTTPS connection. The max-age specifies in seconds what period of time the site is willing to accept HTTPS-only connections.
-add_header X-Content-Type-Options nosniff; this header tells the browser not to override the response content’s MIME type. So, if the server says the content is text, the browser will render it as text.
-proxy_pass http://127.0.0.1:80; this directive proxies all the decrypted traffic to Varnish, which listens on port 80.
-proxy_set_header directives add specific headers to requests, so SSL traffic can be recognized.
-access_log and error_log indicate the location and name of the respective types of logs. Adjust these locations and names according to your setup, and make sure the www-data user has permissions to modify each log.
-fastcgi directives present in the last server block are necessary to proxy requests for PHP code execution to PHP-FPM, via the FastCGI protocol.
-Optional: To prevent access to your website via direct input of your IP address into a browser, you can put a catch-all default server block right at the top of the file:
+-	`ssl_session_cache shared:SSL:20m;` creates a 20MB cache shared between all worker processes. This cache is used to store SSL session parameters to avoid SSL handshakes for parallel and subsequent connections. 1MB can store about 4000 sessions, so adjust this cache size according to the expected traffic for your website.
+-	`ssl_session_timeout 60m;` specifies the SSL session cache timeout. Here it’s set to 60 minutes, but it can be decreased or increased, depending on traffic and resources.
+-	`ssl_prefer_server_ciphers on;` means that when an SSL connection is established, the server ciphers are preferred over client ciphers.
+-	`add_header Strict-Transport-Security "max-age=31536000";` tells web browsers they should only interact with this server using a secure HTTPS connection. The `max-age` specifies in seconds what period of time the site is willing to accept HTTPS-only connections.
+-	`add_header X-Content-Type-Options nosniff;` this header tells the browser not to override the response content’s MIME type. So, if the server says the content is text, the browser will render it as text.
+-	`proxy_pass http://127.0.0.1:80;` this directive proxies all the decrypted traffic to Varnish, which listens on port `80`.
+-	`proxy_set_header` directives add specific headers to requests, so SSL traffic can be recognized.
+-	`access_log` and `error_log` indicate the location and name of the respective types of logs. Adjust these locations and names according to your setup, and make sure the `www-data` user has permissions to modify each log.
+-	`fastcgi` directives present in the last server block are necessary to proxy requests for PHP code execution to PHP-FPM, via the FastCGI protocol.
 
-/etc/Nginx/sites-available/default
-1
-2
-3
-4
-5
-6
-7
+6.	**Optional:** To prevent access to your website via direct input of your IP address into a browser, you can put a catch-all default server block right at the top of the file:
+
+File excerpt: **/etc/Nginx/sites-available/default**
+
+```
 server {
   listen 8080 default_server;
   listen [::]:8080;
@@ -497,51 +493,42 @@ server {
   root /var/www/html;
   index index.html;
 }
-The /var/www/html/index.html file can contain a simple message like “Page not found!”
-Restart Nginx, then start Varnish:
+```
 
-1
-2
+The `/var/www/html/index.html` file can contain a simple message like “Page not found!”
+
+7.	Restart Nginx, then start Varnish:
+
+```
 sudo systemctl restart Nginx
 sudo systemctl start varnish
-Install WordPress, following our How to Install and Configure WordPress guide. Once WordPress is installed, continue with this guide.
-After installing WordPress, restart Varnish to clear any cached redirects to the setup page:
+```
 
-1
+8.	Install WordPress, following our How to Install and Configure WordPress guide. Once WordPress is installed, continue with this guide.
+
+9.	After installing WordPress, restart Varnish to clear any cached redirects to the setup page:
+
+```
 sudo systemctl restart varnish
-Install the WordPress “Varnish HTTP Purge” Plugin
+```
+
+## Install the WordPress “Varnish HTTP Purge” Plugin
+
 When you edit a WordPress page and update it, the modification won’t be visible even if you refresh the browser because it will receive the cached version of the page. To purge the cached page automatically when you edit a page, you must install a free WordPress plugin called “Varnish HTTP Purge.”
 
-To install this plugin, log in to your WordPress website and click Plugins on the main left sidebar. Select Add New at the top of the page, and search for Varnish HTTP Purge. When you’ve found it, click Install Now, then Activate.
+To install this plugin, log in to your WordPress website and click **Plugins** on the main left sidebar. Select Add New at the top of the page, and search for **Varnish HTTP Purge.** When you’ve found it, click **Install Now,** then **Activate.**
 
-Test Your Setup
-To test whether Varnish and Nginx are doing their jobs for the HTTP website, run:
+## Test Your Setup
 
-1
+1.	To test whether Varnish and Nginx are doing their jobs for the HTTP website, run:
+
+```
 wget -SS http://www.example-over-http.com
+```
+
 The output should look like this:
 
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
+```
     --2016-11-04 16:48:43--  http://www.example-over-http.com/
     Resolving www.example-over-http.com (www.example-over-http.com)... your_server_ip
     Connecting to www.example-over-http.com (www.example-over-http.com)|your_server_ip|:80... connected.
@@ -563,39 +550,21 @@ The output should look like this:
     index.html              [ <=>                  ]  12.17K  --.-KB/s   in 0s
 
     2016-03-27 00:33:42 (138 MB/s) - \u2018index.html.2\u2019 saved [12459]
-The third line specifies the connection port number: 80. The backend server is correctly identified: Server: Nginx/1.6.2. And the traffic passes through Varnish as intended: Via: 1.1 varnish-v4. The period of time the object has been kept in cache by Varnish is also displayed in seconds: Age: 467.
-To test the SSL-encrypted website, run the same command, replacing the URL:
+```
 
-1
+The third line specifies the connection port number: `80`. The backend server is correctly identified: `Server: Nginx/1.6.2`. And the traffic passes through Varnish as intended: `Via: 1.1 varnish-v4`. The period of time the object has been kept in cache by Varnish is also displayed in seconds: `Age: 467`.
+
+2.	To test the SSL-encrypted website, run the same command, replacing the URL:
+
+```
 wget -SS https://www.example-over-https.com
+```
+
 The output should be similar to that of the HTTP-only site.
 
-If you’re using a self-signed certificate while testing, add the --no-check-certificate option to the wget command:
-
-1
-wget -SS --no-check-certificate https://www.example-over-https.com
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+> ### Note
+>If you’re using a self-signed certificate while testing, add the --no-check-certificate option to the wget command:
+>`wget -SS --no-check-certificate https://www.example-over-https.com`
 
 
 
