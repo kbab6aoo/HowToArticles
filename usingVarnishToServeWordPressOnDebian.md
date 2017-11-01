@@ -8,3 +8,10 @@ One Varnish drawback is that it doesn't support SSL-encrypted traffic.  You can 
 
 Both Varnish and Nginx are versatile tools with a variety of uses.  This guide uses Varnish 4.0, which comes included in Debian 8 repositories, and presents a basic setup that you can refine to meet your specific needs.
 
+## How Varnish and Nginx Work Together
+
+In this guide, we will configure Nginx and Varnish for two WordPress sites:
+-	www.example-over-http.com will be an unencrypted, HTTP-only site.
+-	www.example-over-https.com will be a separate, HTTPS-encrypted site.
+
+
