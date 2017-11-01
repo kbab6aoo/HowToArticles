@@ -82,7 +82,7 @@ Now that we have configured Varnish, use this section to make it your web server
 
 To allow Varnish to communicate with our web server, we will need to modify a few settings in the virtual host file for your site.
 
-1.	If using Nginx, skip thi step.  If using Apache, change the port Apache listens on.  Edit `/etc/apache2/ports.conf` and any virtual hosts.  Open `ports.conf` and change the `80` in `Listen 80` to another port.  Port `8080` will be used in for our example.
+1.	If using Nginx, skip this step.  If using Apache, change the port Apache listens on.  Edit `/etc/apache2/ports.conf` and any virtual hosts.  Open `ports.conf` and change the `80` in `Listen 80` to another port.  Port `8080` will be used in for our example.
 
 		Listen 8080
 
@@ -174,6 +174,89 @@ File excerpt: **/etc/varnish/user.vcl**
 It is likely you don't want to cache POST requests, because they probably need to interact with the backend to gather dynamic data or set up a user's session.  In our example above, you chose not to cache requests if the user is logged in.  This section ensures a user can log in to begin with.  An easy approach is to skip POST requests all together.  
 
 To accomplish this, add the following condition to the existing return (pass) block inside of vcl_recv:
+
+File excerpt: **/etc/varnish/user.vcl**  
+
+			if ((req.http == "example.com" &&
+				req.url ~"^/admin") ||
+				req.http.Cookie == "logged_in")
+			{
+				return (pass);
+			}
+## Use Varnish Cache for High Availability with Backend Polling
+
+Varnish can use a built-in tool called _backend polling_ to check on the backend server and continue serving cached content if the backend is unreachable.  In the event that Varnish detects downtime, it will continue serving cached content for a _grace time_ that you configure in user.vcl:
+
+File excerpt: **/etc/varnish/user.vcl**  
+
+		backend default {
+			.host = '127.0.0.1';
+			.port = '8080'
+			.probe = {
+				.url = "/";
+				.timeout = 40 ms;
+				.interval = 1s;
+				.threshold = 8;
+			}
+		}
+
+These simple settings are just a starting point, and you we can tweak them for our website.  This example instructs Varnish to _poll_ or perform a test connection to, _http://127.0.0.1:8080/_ every second, and if it takes less than 40ms to respond for at least 8 of the last 10 polls, the backend is considered healthy.  
+
+If the backend fails the test, it's considered unhealthy and objects are served out of the cache in accordance to their grace time setting.  To set the grace time, include the following line in vcl_backend_response
+
+File excerpt: **/etc/varnish/user.vcl**  
+
+		set beresp.grace = 1h;
+
+"1h" allows the backend to be down for one hour without any impact to website users.  If you are serving static content, the grace time can be even longer to ensure uptime.
+
+## Serve Vanish Cache from Another Server
+
+For added availability, consider serving Varnish Cache from a separate Server.  In this case, the Varnish installation steps should be performed on a separate Server in the same datacenter as the web server.  Once installed, configure the Varnish backend `.host` value to point at the web server's private IP address.  Note that DNS records for your site should be pointed at teh Varnish Server, since this is where the clients connects.
+
+That's it! If everything went well, visitors to your site are now being served Varnish-cached content from memory, resulting in dramatic improvements to your site's speed.
+
+## Test Varnish with varnishlog
+
+Now that all traffic is configured to reach Varnish cache, start `varnishlog` to view Varnish activity as it happens.  Note that this is live, ongoing log that will not show any information unless activity has occurred.  Once you have started Varnishlog, use a browser to view a page that should be cached and watch the log for activity:
+
+Stop `varnishlog` with `CTRL+C` when done.
+
+## Firewall Rules  
+
+When using a firewall, Varnish requires slight modification to the rules you may have used when setting up a web server.  
+
+If Varnish is running on the same server as your web server, be sure to allow incoming connections on port 80.  However, you will also need to allow connections from localhost on port 8080, since this is how Varnish communicates with the web server.
+
+These two are simply the minimum rule modifications.  It is strongly recommended you use additional firewall rules on each, based on the other services you have running.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
