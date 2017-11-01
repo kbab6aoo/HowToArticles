@@ -20,5 +20,10 @@ For HTTPS traffic, Nginx will listen on port `443` and send decrypted traffic to
 
 Our setup is illustrated below. Please note that frontend Nginx and backend Nginx are one and the same server:  
 
-![my image is missing..!](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/images/VarnishDebian.png)  
+![my image is missing..!](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/images/varnishNginxDiagram.png)  
 
+This tutorial assumes that you have SSH access to your server running Debian 8 (Jessie)  
+## _Before You Begin - Checklist_  
+1.	Secure your server and create a standard user account 
+2.	Create a LEMP Stack on D
+3.	Update your system
