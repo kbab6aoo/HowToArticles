@@ -220,7 +220,8 @@ Remember to include in the above series any page that requires cookies to work, 
 >The “WooCommerce Recently Viewed” widget, which displays a group of recently viewed products, uses a cookie to store recent user-specific actions and this cookie prevents Varnish from caching product pages when they are browsed by visitors. If you want to cache product pages when they are only browsed, before products are added to the cart, you must disable this widget.
 >
 >Special attention is required when enabling widgets that use cookies to store recent user-specific activities, if you want Varnish to cache as many pages as possible.
-Change the headers for purge requests by adding the sub vcl_deliver directive:
+
+10.	Change the headers for purge requests by adding the sub vcl_deliver directive:
 
 File excerpt: **/etc/varnish/custom.vcl**
 
@@ -232,19 +233,24 @@ set resp.http.X-Purger = req.http.X-Purger;
 }
 ```
 
-This concludes the custom.vcl configuration. You can now save and exit the file. The final custom.vcl file will look like this.
+This concludes the `custom.vcl` configuration. You can now save and exit the file. The final `custom.vcl` file will look like this.
 
-You can download the complete sample configuration file using the link above and wget. If you do, remember to replace the variables as described above.
-Edit the Varnish Startup Configuration
-For Varnish to work properly, we also need to edit the /lib/systemd/system/varnish.service file to use our custom configuration file. Specifically, we’ll tell it to use the custom configuration file and modify the port number and allocated memory values to match the changes we made in our /etc/default/varnish file.
+> ### Note
+>You can download the complete sample configuration file using the link above and wget. If you do, remember to replace the variables as described above.
 
-Open /lib/systemd/system/varnish.service and find the two lines beginning with ExecStart. Modify them to look like this:
+## Edit the Varnish Startup Configuration
 
-/lib/systemd/system/varnish.service
-1
-2
-ExecStartPre=/usr/sbin/varnishd -C -f /etc/varnish/custom.vcl
-ExecStart=/usr/sbin/varnishd -a :80 -T localhost:6082 -f /etc/varnish/custom.vcl -S /etc/varnish/secret -s malloc,1G
+1.	For Varnish to work properly, we also need to edit the /lib/systemd/system/varnish.service file to use our custom configuration file. Specifically, we’ll tell it to use the custom configuration file and modify the port number and allocated memory values to match the changes we made in our `/etc/default/varnish` file.
+
+Open `/lib/systemd/system/varnish.service` and find the two lines beginning with ExecStart. Modify them to look like this:
+
+File excerpt: **/lib/systemd/system/varnish.service**
+
+```
+	ExecStartPre=/usr/sbin/varnishd -C -f /etc/varnish/custom.vcl
+	ExecStart=/usr/sbin/varnishd -a :80 -T localhost:6082 -f /etc/varnish/custom.vcl -S /etc/varnish/secret -s malloc,1G
+```
+
 After saving and exiting the file, reload the systemd process:
 
 1
