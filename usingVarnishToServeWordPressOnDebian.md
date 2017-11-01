@@ -160,83 +160,78 @@ File excerpt: **/etc/varnish/custom.vcl**
 -	WordPress sets many cookies that are safe to ignore. To remove them, add the following lines:
 
 File excerpt: **/etc/varnish/custom.vcl**
-
+```
 	set req.http.cookie = regsuball(req.http.cookie, "wp-settings-\d+=[^;]+(; )?", "");
 	set req.http.cookie = regsuball(req.http.cookie, "wp-settings-time-\d+=[^;]+(; )?", "");
 	if (req.http.cookie == "") {
 	unset req.http.cookie;
-  	  }
+ 	}
+```
 >### Note  
 >This is the final setting to be placed inside the sub `vcl_recv` routine. All directives in the following steps (from Step 6 onward) should be placed after the closing `}`.
 
 6.	Redirect HTTP to HTTPS using the sub `vcl_synth` directive with the following settings:
 
 File excerpt: **/etc/varnish/custom.vcl**
-1
-2
-3
-4
-5
-6
-7
-sub vcl_synth {
- if (resp.status == 850) {
-     set resp.http.Location = req.http.x-redir;
-     set resp.status = 302;
-     return (deliver);
- }
+```
+	sub vcl_synth {
+ 	  if (resp.status == 850) {
+    	  set resp.http.Location = req.http.x-redir;
+    	  set resp.status = 302;
+    	  return (deliver);
+ 			}
 }
-Cache-purging for a particular page must occur each time we make edits to that page. To implement this, we use the sub vcl_purge directive:
+```
 
-/etc/varnish/custom.vcl
-1
-2
-3
-4
-5
-sub vcl_purge {
- set req.method = "GET";
- set req.http.X-Purger = "Purged";
- return (restart);
+7.	Cache-purging for a particular page must occur each time we make edits to that page. To implement this, we use the sub vcl_purge directive:
+
+File excerpt: **/etc/varnish/custom.vcl**
+```
+	sub vcl_purge {
+ 		set req.method = "GET";
+ 		set req.http.X-Purger = "Purged";
+ 		return (restart);
+	}
+```
+
+8.	The sub `vcl_backend_response` directive is used to handle communication with the backend server, Nginx. We use it to set the amount of time the content remains in the cache. We can also set a grace period, which determines how Varnish will serve content from the cache even if the backend server is down. Time can be set in seconds (s), minutes (m), hours (h) or days (d). Here, we’ve set the caching time to 24 hours, and the grace period to 1 hour, but you can adjust these settings based on your needs:
+
+File excerpt: **/etc/varnish/custom.vcl**
+
+```
+	sub vcl_backend_response {
+ 		set beresp.ttl = 24h;
+ 		set beresp.grace = 1h;
+```
+
+9.	Before closing the `vcl_backend_response` block with a bracket, allow cookies to be set only if you are on admin pages or WooCommerce-specific pages:
+File excerpt: **/etc/varnish/custom.vcl**
+
+```
+ 	if (bereq.url !~ "wp-admin|wp-login|product|cart|checkout|my-account|/?remove_item=") {
+ 	unset beresp.http.set-cookie;
+ 	}
 }
-The sub vcl_backend_response directive is used to handle communication with the backend server, nginx. We use it to set the amount of time the content remains in the cache. We can also set a grace period, which determines how Varnish will serve content from the cache even if the backend server is down. Time can be set in seconds (s), minutes (m), hours (h) or days (d). Here, we’ve set the caching time to 24 hours, and the grace period to 1 hour, but you can adjust these settings based on your needs:
+```
 
-/etc/varnish/custom.vcl
-1
-2
-3
-sub vcl_backend_response {
- set beresp.ttl = 24h;
- set beresp.grace = 1h;
-Before closing the vcl_backend_response block with a bracket, allow cookies to be set only if you are on admin pages or WooCommerce-specific pages:
+Remember to include in the above series any page that requires cookies to work, for example `phpmyadmin|webmail|postfixadmin`, etc. If you change the WordPress login page from wp-login.php to something else, also add that new name to this series.
 
-/etc/varnish/custom.vcl
-1
-2
-3
-4
- if (bereq.url !~ "wp-admin|wp-login|product|cart|checkout|my-account|/?remove_item=") {
- unset beresp.http.set-cookie;
- }
-}
-Remember to include in the above series any page that requires cookies to work, for example phpmyadmin|webmail|postfixadmin, etc. If you change the WordPress login page from wp-login.php to something else, also add that new name to this series.
+> ### Note
+>The “WooCommerce Recently Viewed” widget, which displays a group of recently viewed products, uses a cookie to store recent user-specific actions and this cookie prevents Varnish from caching product pages when they are browsed by visitors. If you want to cache product pages when they are only browsed, before products are added to the cart, you must disable this widget.
 
-The “WooCommerce Recently Viewed” widget, which displays a group of recently viewed products, uses a cookie to store recent user-specific actions and this cookie prevents Varnish from caching product pages when they are browsed by visitors. If you want to cache product pages when they are only browsed, before products are added to the cart, you must disable this widget.
-
-Special attention is required when enabling widgets that use cookies to store recent user-specific activities, if you want Varnish to cache as many pages as possible.
+>Special attention is required when enabling widgets that use cookies to store recent user-specific activities, if you want Varnish to cache as many pages as possible.
 Change the headers for purge requests by adding the sub vcl_deliver directive:
 
-/etc/varnish/custom.vcl
-1
-2
-3
-4
-5
+File excerpt: **/etc/varnish/custom.vcl**
+
+```
 sub vcl_deliver {
 if (req.http.X-Purger) {
 set resp.http.X-Purger = req.http.X-Purger;
   }
 }
+```
+
 This concludes the custom.vcl configuration. You can now save and exit the file. The final custom.vcl file will look like this.
 
 You can download the complete sample configuration file using the link above and wget. If you do, remember to replace the variables as described above.
