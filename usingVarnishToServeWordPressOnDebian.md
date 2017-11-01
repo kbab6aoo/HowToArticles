@@ -145,38 +145,46 @@ return(synth(405, "This IP is not allowed to send PURGE requests."));
 
 File excerpt: **/etc/varnish/custom.vcl**
 
-	if (req.restarts == 0) {
-	if (req.http.X-Forwarded-For) {
-	set req.http.X-Forwarded-For = client.ip;
-  	  }
+```
+if (req.restarts == 0) {
+if (req.http.X-Forwarded-For) {
+set req.http.X-Forwarded-For = client.ip;
 	}
+}
+```
 -	Exclude POST requests or those with basic authentication from caching:
 
 File excerpt: **/etc/varnish/custom.vcl**
 
-	if (req.http.Authorization || req.method == "POST") {
-	return (pass);
-	}
-
+```
+if (req.http.Authorization || req.method == "POST") {
+return (pass);
+}
+```
 -	Exclude RSS feeds from caching:
 
 File excerpt: **/etc/varnish/custom.vcl**
 
-	if (req.url ~ "/feed") {
-	return (pass);
-	}
+```
+if (req.url ~ "/feed") {
+return (pass);
+}
+```
 
 -	Tell Varnish not to cache the WordPress admin and login pages:
 
 File excerpt: **/etc/varnish/custom.vcl**
 
-	if (req.url ~ "wp-admin|wp-login") {
-	return (pass);
-	}
+```
+if (req.url ~ "wp-admin|wp-login") {
+return (pass);
+}
+```
 
 -	WordPress sets many cookies that are safe to ignore. To remove them, add the following lines:
 
 File excerpt: **/etc/varnish/custom.vcl**
+
 ```
 	set req.http.cookie = regsuball(req.http.cookie, "wp-settings-\d+=[^;]+(; )?", "");
 	set req.http.cookie = regsuball(req.http.cookie, "wp-settings-time-\d+=[^;]+(; )?", "");
