@@ -43,6 +43,17 @@ For all steps in this section, replace `203.0.113.100` with your servers' public
 
 		START=yes
 
+3.	In the `Alternative 2` section, make the following changes to `DAEMON_OPTS`:
+
+	File excerpt: **/etc/default/varnish**
+
+```
+	DAEMON_OPTS="-a :80 \
+         -T localhost:6082 \
+         -f /etc/varnish/custom.vcl \
+         -S /etc/varnish/secret \
+         -s malloc,1G"
+```
 
 
 
