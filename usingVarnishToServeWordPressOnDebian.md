@@ -34,8 +34,8 @@ For all steps in this section, replace `203.0.113.100` with your servers' public
 
 1.	Update your package repositories and install Varnish:  
 ```
-	sudo apt-get update
-	sudo apt-get install varnish
+sudo apt-get update
+sudo apt-get install varnish
 ```
 
 2.	Open `/etc/default/varnish` with sudo rights. To make sure Varnish starts at boot, under `Should we start varnishd at boot?` set the `START` to `yes`:
