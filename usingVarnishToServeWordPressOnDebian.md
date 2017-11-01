@@ -186,11 +186,11 @@ return (pass);
 File excerpt: **/etc/varnish/custom.vcl**
 
 ```
-	set req.http.cookie = regsuball(req.http.cookie, "wp-settings-\d+=[^;]+(; )?", "");
-	set req.http.cookie = regsuball(req.http.cookie, "wp-settings-time-\d+=[^;]+(; )?", "");
-	if (req.http.cookie == "") {
-	unset req.http.cookie;
- 	}
+set req.http.cookie = regsuball(req.http.cookie, "wp-settings-\d+=[^;]+(; )?", "");
+set req.http.cookie = regsuball(req.http.cookie, "wp-settings-time-\d+=[^;]+(; )?", "");
+if (req.http.cookie == "") {
+unset req.http.cookie;
+	}
 ```
 >### Note  
 >This is the final setting to be placed inside the sub `vcl_recv` routine. All directives in the following steps (from Step 6 onward) should be placed after the closing `}`.
@@ -199,23 +199,24 @@ File excerpt: **/etc/varnish/custom.vcl**
 
 File excerpt: **/etc/varnish/custom.vcl**
 ```
-	sub vcl_synth {
- 	  if (resp.status == 850) {
-    	  set resp.http.Location = req.http.x-redir;
-    	  set resp.status = 302;
-    	  return (deliver);
- 			}
+sub vcl_synth {
+ 	if (resp.status == 850) {
+    	set resp.http.Location = req.http.x-redir;
+    	set resp.status = 302;
+    	return (deliver);
+ 		}
 }
 ```
 
 7.	Cache-purging for a particular page must occur each time we make edits to that page. To implement this, we use the sub vcl_purge directive:
 
 File excerpt: **/etc/varnish/custom.vcl**
+
 ```
-	sub vcl_purge {
- 		set req.method = "GET";
- 		set req.http.X-Purger = "Purged";
- 		return (restart);
+sub vcl_purge {
+ 	set req.method = "GET";
+ 	set req.http.X-Purger = "Purged";
+ 	return (restart);
 	}
 ```
 
@@ -224,9 +225,9 @@ File excerpt: **/etc/varnish/custom.vcl**
 File excerpt: **/etc/varnish/custom.vcl**
 
 ```
-	sub vcl_backend_response {
- 		set beresp.ttl = 24h;
- 		set beresp.grace = 1h;
+sub vcl_backend_response {
+ 	set beresp.ttl = 24h;
+ 	set beresp.grace = 1h;
 ```
 
 9.	Before closing the `vcl_backend_response` block with a bracket, allow cookies to be set only if you are on admin pages or WooCommerce-specific pages:
@@ -272,8 +273,8 @@ Open `/lib/systemd/system/varnish.service` and find the two lines beginning with
 File excerpt: **/lib/systemd/system/varnish.service**
 
 ```
-	ExecStartPre=/usr/sbin/varnishd -C -f /etc/varnish/custom.vcl
-	ExecStart=/usr/sbin/varnishd -a :80 -T localhost:6082 -f /etc/varnish/custom.vcl -S /etc/varnish/secret -s malloc,1G
+ExecStartPre=/usr/sbin/varnishd -C -f /etc/varnish/custom.vcl
+ExecStart=/usr/sbin/varnishd -a :80 -T localhost:6082 -f /etc/varnish/custom.vcl -S /etc/varnish/secret -s malloc,1G
 ```
 
 After saving and exiting the file, reload the systemd process:
