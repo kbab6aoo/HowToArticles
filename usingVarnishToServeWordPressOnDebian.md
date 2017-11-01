@@ -136,43 +136,36 @@ File excerpt: **/etc/varnish/custom.vcl**
 -	Exclude POST requests or those with basic authentication from caching:
 
 File excerpt: **/etc/varnish/custom.vcl**
-1
-2
-3
- if (req.http.Authorization || req.method == "POST") {
- return (pass);
- }
-Exclude RSS feeds from caching:
 
-/etc/varnish/custom.vcl
-1
-2
-3
- if (req.url ~ "/feed") {
- return (pass);
- }
-Tell Varnish not to cache the WordPress admin and login pages:
+	if (req.http.Authorization || req.method == "POST") {
+	return (pass);
+	}
 
-/etc/varnish/custom.vcl
-1
-2
-3
- if (req.url ~ "wp-admin|wp-login") {
- return (pass);
- }
-WordPress sets many cookies that are safe to ignore. To remove them, add the following lines:
+-	Exclude RSS feeds from caching:
 
-/etc/varnish/custom.vcl
-1
-2
-3
-4
-5
- set req.http.cookie = regsuball(req.http.cookie, "wp-settings-\d+=[^;]+(; )?", "");
- set req.http.cookie = regsuball(req.http.cookie, "wp-settings-time-\d+=[^;]+(; )?", "");
- if (req.http.cookie == "") {
- unset req.http.cookie;
-   }
+File excerpt: **/etc/varnish/custom.vcl**
+
+	if (req.url ~ "/feed") {
+	return (pass);
+	}
+
+-	Tell Varnish not to cache the WordPress admin and login pages:
+
+File excerpt: **/etc/varnish/custom.vcl**
+
+	if (req.url ~ "wp-admin|wp-login") {
+	return (pass);
+	}
+
+-	WordPress sets many cookies that are safe to ignore. To remove them, add the following lines:
+
+File excerpt: **/etc/varnish/custom.vcl**
+
+	set req.http.cookie = regsuball(req.http.cookie, "wp-settings-\d+=[^;]+(; )?", "");
+	set req.http.cookie = regsuball(req.http.cookie, "wp-settings-time-\d+=[^;]+(; )?", "");
+	if (req.http.cookie == "") {
+	unset req.http.cookie;
+  	  }
 This is the final setting to be placed inside the sub vcl_recv routine. All directives in the following steps (from Step 6 onward) should be placed after the closing }.
 Redirect HTTP to HTTPS using the sub vcl_synth directive with the following settings:
 
