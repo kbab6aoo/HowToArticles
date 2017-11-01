@@ -104,49 +104,38 @@ File excerpt: **/etc/varnish/custom.vcl**
 		}
 The settings in the following steps should be placed inside the sub vcl_recv brackets:
 
-Redirect HTTP requests to HTTPS for our SSL website:
+-	Redirect HTTP requests to HTTPS for our SSL website:
 
-/etc/varnish/custom.vcl
-1
-2
-3
-4
- if (client.ip != "127.0.0.1" && req.http.host ~ "example-over-https.com") {
- set req.http.x-redir = "https://www.example-over-https.com" + req.url;
- return(synth(850, ""));
- }
-Remember to replace the example domain with your own.
-Allow cache-purging requests only from the IP addresses in the above acl purger section (Step 4). If a purge request comes from a different IP address, an error message will be produced:
+File excerpt: **/etc/varnish/custom.vcl**
 
-/etc/varnish/custom.vcl
-1
-2
-3
-4
-5
-6
- if (req.method == "PURGE") {
- if (!client.ip ~ purger) {
- return(synth(405, "This IP is not allowed to send PURGE requests."));
-   }
- return (purge);
- }
-Change the X-Forwarded-For header:
+		if (client.ip != "127.0.0.1" && req.http.host ~ "example-over-https.com") {
+ 		set req.http.x-redir = "https://www.example-over-https.com" + req.url;
+ 		return(synth(850, ""));
+ 		}
+Remember to replace the _**example domain**_ with your own.
 
-/etc/varnish/custom.vcl
-1
-2
-3
-4
-5
- if (req.restarts == 0) {
- if (req.http.X-Forwarded-For) {
- set req.http.X-Forwarded-For = client.ip;
-   }
- }
-Exclude POST requests or those with basic authentication from caching:
+-	Allow cache-purging requests only from the IP addresses in the above `acl purger` section (Step 4). If a purge request comes from a different IP address, an error message will be produced:
 
-/etc/varnish/custom.vcl
+File excerpt: **/etc/varnish/custom.vcl**
+
+	if (req.method == "PURGE") {
+	if (!client.ip ~ purger) {
+	return(synth(405, "This IP is not allowed to send PURGE requests."));
+  		}
+	return (purge);
+ 	}
+-	Change the X-Forwarded-For header:
+
+File excerpt: **/etc/varnish/custom.vcl**
+
+	if (req.restarts == 0) {
+	if (req.http.X-Forwarded-For) {
+	set req.http.X-Forwarded-For = client.ip;
+  	  }
+	}
+-	Exclude POST requests or those with basic authentication from caching:
+
+File excerpt: **/etc/varnish/custom.vcl**
 1
 2
 3
