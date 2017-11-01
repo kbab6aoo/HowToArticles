@@ -69,32 +69,39 @@ When you’ve made these changes, save and exit the file.
 
 1.	To start customizing your Varnish configuration, create a new file called custom.vcl:
 
-		sudo touch /etc/varnish/custom.vcl
+```
+sudo touch /etc/varnish/custom.vcl
+```
 
 2.	Varnish configuration uses a domain-specific language called Varnish Configuration Language (VCL). First, specify the VCL version used:
 
 File excerpt: **/etc/varnish/custom.vcl**
 
-		vcl 4.0;
-
+```
+vcl 4.0;
+```
 3.	Specify that the backend (nginx) is listening on port 8080, by adding the backend default directive:
 
 File excerpt: **/etc/varnish/custom.vcl**
 
-		backend default {
-			.host = "localhost";
-			.port = "8080";
-		}
+```
+backend default {
+	.host = "localhost";
+	.port = "8080";
+}
+```
 
 4.	Allow cache-purging requests only from localhost using the acl directive:
 
 File excerpt: **/etc/varnish/custom.vcl**
 
-		acl purger {
-			"localhost";
-			"203.0.113.100";
-			"2001:DB8::1234";
-		}
+```
+acl purger {
+	"localhost";
+	"203.0.113.100";
+	"2001:DB8::1234";
+}
+```
 
 Remember to substitute your server's actual IP addresses for the example addresses.
 
@@ -102,32 +109,38 @@ Remember to substitute your server's actual IP addresses for the example address
 
 File excerpt: **/etc/varnish/custom.vcl**
 
-		sub vcl_recv {
+```
+sub vcl_recv {
 
+}
+```
 
-		}
 The settings in the following steps should be placed inside the sub vcl_recv brackets:
 
 -	Redirect HTTP requests to HTTPS for our SSL website:
 
 File excerpt: **/etc/varnish/custom.vcl**
 
-		if (client.ip != "127.0.0.1" && req.http.host ~ "example-over-https.com") {
- 		set req.http.x-redir = "https://www.example-over-https.com" + req.url;
- 		return(synth(850, ""));
- 		}
+```
+if (client.ip != "127.0.0.1" && req.http.host ~ "example-over-https.com") {
+ set req.http.x-redir = "https://www.example-over-https.com" + req.url;
+ return(synth(850, ""));
+ }
+```
 Remember to replace the _**example domain**_ with your own.
 
 -	Allow cache-purging requests only from the IP addresses in the above `acl purger` section (Step 4). If a purge request comes from a different IP address, an error message will be produced:
 
 File excerpt: **/etc/varnish/custom.vcl**
 
-	if (req.method == "PURGE") {
-	if (!client.ip ~ purger) {
-	return(synth(405, "This IP is not allowed to send PURGE requests."));
-  		}
-	return (purge);
+```
+if (req.method == "PURGE") {
+if (!client.ip ~ purger) {
+return(synth(405, "This IP is not allowed to send PURGE requests."));
  	}
+	return (purge);
+}
+ ```
 -	Change the X-Forwarded-For header:
 
 File excerpt: **/etc/varnish/custom.vcl**
