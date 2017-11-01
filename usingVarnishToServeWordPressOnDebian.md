@@ -277,94 +277,90 @@ ExecStartPre=/usr/sbin/varnishd -C -f /etc/varnish/custom.vcl
 ExecStart=/usr/sbin/varnishd -a :80 -T localhost:6082 -f /etc/varnish/custom.vcl -S /etc/varnish/secret -s malloc,1G
 ```
 
-After saving and exiting the file, reload the systemd process:
+2.	After saving and exiting the file, reload the `systemd` process:
 
-1
+```
 sudo systemctl daemon-reload
-Install and Configure PHP
-Before configuring Nginx, we have to install PHP-FPM. FPM is short for FastCGI Process Manager, and it allows the web server to act as a proxy, passing all requests with the .php file extension to the PHP interpreter.
+```
 
-Install PHP-FPM:
+## Install and Configure PHP
+Before configuring Nginx, we have to install PHP-FPM. FPM is short for FastCGI Process Manager, and it allows the web server to act as a proxy, passing all requests with the `.php` file extension to the PHP interpreter.
 
-1
+1.	Install PHP-FPM:
+
+```
 sudo apt-get install php5-fpm php5-mysql
-Open the /etc/php5/fpm/php.ini file. Find the directive cgi.fix_pathinfo=, uncomment and set it to 0. If this parameter is set to 1, the PHP interpreter will try to process the file whose path is closest to the requested path; if it’s set to 0, the interpreter will only process the file with the exact path, which is a safer option.
+```
 
-/etc/php5/fpm/php.ini
-1
+2.	Open the /etc/php5/fpm/php.ini file. Find the directive cgi.fix_pathinfo=, uncomment and set it to 0. If this parameter is set to 1, the PHP interpreter will try to process the file whose path is closest to the requested path; if it’s set to 0, the interpreter will only process the file with the exact path, which is a safer option.
+
+File excerpt: **/etc/php5/fpm/php.ini**
+
+```
 cgi.fix_pathinfo=0
-After you’ve made this change, save and exit the file.
-Open /etc/php5/fpm/pool.d/www.conf and confirm that the listen = directive, which specifies the socket used by Nginx to pass requests to PHP-FPM, matches the following:
+```
 
-/etc/php5/fpm/pool.d/www.conf
-1
+After you’ve made this change, save and exit the file.  
+
+3.	Open `/etc/php5/fpm/pool.d/www.conf` and confirm that the `listen =` directive, which specifies the socket used by Nginx to pass requests to PHP-FPM, matches the following:
+
+File excerpt: **/etc/php5/fpm/pool.d/www.conf**
+
+```
 listen = /var/run/php5-fpm.sock
+```
+
 Save and exit the file.
-Restart PHP-FPM:
+4.	Restart PHP-FPM:
 
-1
+```
 sudo systemctl restart php5-fpm
-Open /etc/Nginx/fastcgi_params and find the fastcgi_param HTTPS directive. Below it, add the following two lines, which are necessary for Nginx to interact with the FastCGI service:
+```
 
-/etc/Nginx/fastcgi_params
-1
-2
+5.	Open `/etc/Nginx/fastcgi_params` and find the `fastcgi_param HTTPS` directive. Below it, add the following two lines, which are necessary for Nginx to interact with the FastCGI service:
+
+File excerpt: **/etc/Nginx/fastcgi_params**
+
+```
 fastcgi_param  SCRIPT_FILENAME    $request_filename;
 fastcgi_param  PATH_INFO          $fastcgi_path_info;
-Once you’re done, save and exit the file.
-Configure Nginx
-Open /etc/Nginx/Nginx.conf and comment out the ssl_protocols and ssl_prefer_server_ciphers directives. We’ll include these SSL settings in the server block within the /etc/Nginx/sites-enabled/default file:
+```
 
-/etc/Nginx/Nginx.conf
-1
-2
+Once you’re done, save and exit the file.
+
+## Configure Nginx  
+
+1.	Open `/etc/Nginx/Nginx.conf` and comment out the `ssl_protocols` and `ssl_prefer_server_ciphers` directives. We’ll include these SSL settings in the server block within the `/etc/Nginx/sites-enabled/default` file:
+
+File excerpt: **/etc/Nginx/Nginx.conf**
+
+```
 # ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
 # ssl_prefer_server_ciphers on;
-Since the access logs and error logs will be defined for each individual website in the server block, comment out the access_log and error_log directives:
+```
 
-/etc/Nginx/Nginx.conf
-1
-2
+2.	Since the access logs and error logs will be defined for each individual website in the server block, comment out the `access_log` and `error_log` directives:
+
+File excerpt: **/etc/Nginx/Nginx.conf**
+
+```
 # access_log /var/log/Nginx/access.log;
 # error_log /var/log/Nginx/error.log;
+```
+
 Save and exit the file.
-Next, we’ll configure the HTTP-only website, www.example-over-http.com. Begin by making a backup of the default server block (virtual host) file:
 
-1
+3.	Next, we’ll configure the HTTP-only website, `www.example-over-http.com`. Begin by making a backup of the default server block (virtual host) file:
+
+```
 sudo mv /etc/Nginx/sites-available/default /etc/Nginx/sites-available/default-backup
-Open a new /etc/Nginx/sites-available/default file and add the following blocks:
+```
 
-/etc/Nginx/sites-available/default
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
+4.	Open a new /etc/Nginx/sites-available/default file and add the following blocks:
+
+File excerpt: **/etc/Nginx/sites-available/default**
+
+```
 server {
   listen  8080;
   listen  [::]:8080;
@@ -395,6 +391,8 @@ server {
 error_log /var/www/html/example-over-http.com/logs/error.log notice;
 
 }
+```
+
 A few things to note here:
 
 The first server block is used to redirect all requests for example-over-http.com to www.example-over-http.com. This assumes you want to use the www subdomain and have added a DNS A record for it.
