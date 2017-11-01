@@ -166,7 +166,7 @@ File excerpt: **/etc/varnish/custom.vcl**
 	if (req.http.cookie == "") {
 	unset req.http.cookie;
   	  }
->>### Note
+>> ### Note
 >This is the final setting to be placed inside the sub `vcl_recv` routine. All directives in the following steps (from Step 6 onward) should be placed after the closing `}`.
 
 6.	Redirect HTTP to HTTPS using the sub `vcl_synth` directive with the following settings:
