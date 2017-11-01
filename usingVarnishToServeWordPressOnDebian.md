@@ -49,14 +49,14 @@ START=yes
 
 3.	In the `Alternative 2` section, make the following changes to `DAEMON_OPTS`:
 
-	File excerpt: **/etc/default/varnish**
+File excerpt: **/etc/default/varnish**
 
 ```
-	DAEMON_OPTS="-a :80 \
-         -T localhost:6082 \
-         -f /etc/varnish/custom.vcl \
-         -S /etc/varnish/secret \
-         -s malloc,1G"
+DAEMON_OPTS="-a :80 \
+            -T localhost:6082 \
+            -f /etc/varnish/custom.vcl \
+            -S /etc/varnish/secret \
+            -s malloc,1G"
 ```
 
 This will set Varnish to listen on port `80` and will instruct it to use the `custom.vcl` configuration file. The custom configuration file is used so that future updates to Varnish do not overwrite changes to `default.vcl`.
