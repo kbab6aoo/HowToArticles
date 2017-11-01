@@ -18,12 +18,68 @@ For HTTP traffic, Varnish will listen on port `80`. If content is found in the c
 
 For HTTPS traffic, Nginx will listen on port `443` and send decrypted traffic to Varnish on port `80`. If content is found in the cache, Varnish will send the unencrypted content from the cache back to Nginx, which will encrypt it and send it to the client. If content is not found in the cache, Varnish will request it from Nginx on port 8080, store it in the cache, and then send it unencrypted to frontend Nginx, which will encrypt it and send it to the client’s browser.
 
-Our setup is illustrated below. Please note that frontend Nginx and backend Nginx are one and the same server:  
+Our setup is illustrated below. Please note that the frontend Nginx and the backend Nginx are one and are on the same server:  
 
 ![my image is missing..!](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/images/varnishNginxDiagram.png)  
 
 This tutorial assumes that you have SSH access to your server running Debian 8 (Jessie)  
 ## _Before You Begin - Checklist_  
 1.	Secure your server and create a standard user account 
-2.	Create a LEMP Stack on D
+2.	Create a LEMP Stack on Debian 8 
 3.	Update your system
+
+## Install and Configure Varnish
+
+For all steps in this section, replace `203.0.113.100` with your servers' public IPv4 address, and `2001:DB8::1234` with it's IPv6 address.  
+
+1.	Update your package repositories and install Varnish:  
+
+		sudo apt-get update
+		sudo apt-get install varnish
+
+2.	Open `/etc/default/varnish` with sudo rights. To make sure Varnish starts at boot, under `Should we start varnishd at boot?` set the `START` to `yes`:
+
+	File excerpt: **/etc/default/varnish**
+
+		START=yes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
