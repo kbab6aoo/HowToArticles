@@ -395,68 +395,16 @@ error_log /var/www/html/example-over-http.com/logs/error.log notice;
 
 A few things to note here:
 
-The first server block is used to redirect all requests for example-over-http.com to www.example-over-http.com. This assumes you want to use the www subdomain and have added a DNS A record for it.
-listen [::]:8080; is needed if you want your site to be also accesible over IPv6.
-port_in_redirect off; prevents Nginx from appending the port number to the requested URL.
-fastcgi directives are used to proxy requests for PHP code execution to PHP-FPM, via the FastCGI protocol.
-To configure Nginx for the SSL-encrypted website (in our example we called it www.example-over-https.com), you need two more server blocks. Append the following server blocks to your /etc/Nginx/sites-available/default file:
+-	The first server block is used to redirect all requests for `example-over-http.com` to `www.example-over-http.com`. This assumes you want to use the `www` subdomain and have added a DNS A record for it.
+-	`listen [::]:8080;` is needed if you want your site to be also accesible over IPv6.
+-	`port_in_redirect off;` prevents Nginx from appending the port number to the requested URL.
+-	`fastcgi` directives are used to proxy requests for PHP code execution to PHP-FPM, via the FastCGI protocol.
 
-/etc/Nginx/sites-available/default
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
+5.	To configure Nginx for the SSL-encrypted website (in our example we called it www.example-over-https.com), you need two more server blocks. Append the following server blocks to your /etc/Nginx/sites-available/default file:
+
+File excerpt: **/etc/Nginx/sites-available/default**
+
+```
 server {
    listen  443 ssl;
    listen  [::]:443 ssl;
@@ -512,9 +460,13 @@ server {
        fastcgi_pass unix:/var/run/php5-fpm.sock;
        }
 }
-For an SSL-encrypted website, you need one server block to receive traffic on port 443 and pass decrypted traffic to Varnish on port 80, and another server block to serve unencrypted traffic to Varnish on port 8080, when Varnish asks for it.
+```
 
-The ssl_certificate directive must specify the location and name of the SSL certificate file. Take a look at our guide to using SSL on Nginx for more information, and update the ssl_certificate and ssl_certificate_key values as needed.
+For an SSL-encrypted website, you need one server block to receive traffic on port 443 and pass decrypted traffic to Varnish on port `80`, and another server block to serve unencrypted traffic to Varnish on port `8080`, when Varnish asks for it.
+
+> ### Caution
+>The ssl_certificate directive must specify the location and name of the SSL certificate file. Take a look at our guide to using SSL on Nginx for more information, and update the ssl_certificate and ssl_certificate_key values as needed.
+
 Alternately, if you don’t have a commercially-signed SSL certificate (issued by a CA), you can issue a self-signed SSL certificate using openssl, but this should be done only for testing purposes. Self-signed sites will return a “This Connection is Untrusted” message when opened in a browser.
 
 Now, let’s review the key points of the previous two server blocks:
