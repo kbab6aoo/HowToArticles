@@ -14,4 +14,11 @@ In this guide, we will configure Nginx and Varnish for two WordPress sites:
 -	www.example-over-http.com will be an unencrypted, HTTP-only site.
 -	www.example-over-https.com will be a separate, HTTPS-encrypted site.
 
+For HTTP traffic, Varnish will listen on port `80`. If content is found in the cache, Varnish will serve it. If not, it will pass the request to Nginx on port `8080`. In the second case, Nginx will send the requested content back to Varnish on the same port, then Varnish will store the fetched content in the cache and deliver it to the client on port `80`.
+
+For HTTPS traffic, Nginx will listen on port `443` and send decrypted traffic to Varnish on port `80`. If content is found in the cache, Varnish will send the unencrypted content from the cache back to Nginx, which will encrypt it and send it to the client. If content is not found in the cache, Varnish will request it from Nginx on port 8080, store it in the cache, and then send it unencrypted to frontend Nginx, which will encrypt it and send it to the client’s browser.
+
+Our setup is illustrated below. Please note that frontend Nginx and backend Nginx are one and the same server:  
+
+![my image is missing..!](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/images/VarnishDebian.png)  
 
