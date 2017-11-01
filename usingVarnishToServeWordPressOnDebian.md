@@ -80,7 +80,7 @@ File excerpt: **/etc/varnish/custom.vcl**
 ```
 vcl 4.0;
 ```
-3.	Specify that the backend (nginx) is listening on port 8080, by adding the backend default directive:
+3.	Specify that the backend (Nginx) is listening on port 8080, by adding the backend default directive:
 
 File excerpt: **/etc/varnish/custom.vcl**
 
@@ -281,7 +281,7 @@ After saving and exiting the file, reload the systemd process:
 1
 sudo systemctl daemon-reload
 Install and Configure PHP
-Before configuring nginx, we have to install PHP-FPM. FPM is short for FastCGI Process Manager, and it allows the web server to act as a proxy, passing all requests with the .php file extension to the PHP interpreter.
+Before configuring Nginx, we have to install PHP-FPM. FPM is short for FastCGI Process Manager, and it allows the web server to act as a proxy, passing all requests with the .php file extension to the PHP interpreter.
 
 Install PHP-FPM:
 
@@ -293,7 +293,7 @@ Open the /etc/php5/fpm/php.ini file. Find the directive cgi.fix_pathinfo=, uncom
 1
 cgi.fix_pathinfo=0
 After you’ve made this change, save and exit the file.
-Open /etc/php5/fpm/pool.d/www.conf and confirm that the listen = directive, which specifies the socket used by nginx to pass requests to PHP-FPM, matches the following:
+Open /etc/php5/fpm/pool.d/www.conf and confirm that the listen = directive, which specifies the socket used by Nginx to pass requests to PHP-FPM, matches the following:
 
 /etc/php5/fpm/pool.d/www.conf
 1
@@ -303,37 +303,37 @@ Restart PHP-FPM:
 
 1
 sudo systemctl restart php5-fpm
-Open /etc/nginx/fastcgi_params and find the fastcgi_param HTTPS directive. Below it, add the following two lines, which are necessary for nginx to interact with the FastCGI service:
+Open /etc/Nginx/fastcgi_params and find the fastcgi_param HTTPS directive. Below it, add the following two lines, which are necessary for Nginx to interact with the FastCGI service:
 
-/etc/nginx/fastcgi_params
+/etc/Nginx/fastcgi_params
 1
 2
 fastcgi_param  SCRIPT_FILENAME    $request_filename;
 fastcgi_param  PATH_INFO          $fastcgi_path_info;
 Once you’re done, save and exit the file.
-Configure nginx
-Open /etc/nginx/nginx.conf and comment out the ssl_protocols and ssl_prefer_server_ciphers directives. We’ll include these SSL settings in the server block within the /etc/nginx/sites-enabled/default file:
+Configure Nginx
+Open /etc/Nginx/Nginx.conf and comment out the ssl_protocols and ssl_prefer_server_ciphers directives. We’ll include these SSL settings in the server block within the /etc/Nginx/sites-enabled/default file:
 
-/etc/nginx/nginx.conf
+/etc/Nginx/Nginx.conf
 1
 2
 # ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
 # ssl_prefer_server_ciphers on;
 Since the access logs and error logs will be defined for each individual website in the server block, comment out the access_log and error_log directives:
 
-/etc/nginx/nginx.conf
+/etc/Nginx/Nginx.conf
 1
 2
-# access_log /var/log/nginx/access.log;
-# error_log /var/log/nginx/error.log;
+# access_log /var/log/Nginx/access.log;
+# error_log /var/log/Nginx/error.log;
 Save and exit the file.
 Next, we’ll configure the HTTP-only website, www.example-over-http.com. Begin by making a backup of the default server block (virtual host) file:
 
 1
-sudo mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default-backup
-Open a new /etc/nginx/sites-available/default file and add the following blocks:
+sudo mv /etc/Nginx/sites-available/default /etc/Nginx/sites-available/default-backup
+Open a new /etc/Nginx/sites-available/default file and add the following blocks:
 
-/etc/nginx/sites-available/default
+/etc/Nginx/sites-available/default
 1
 2
 3
@@ -398,11 +398,11 @@ A few things to note here:
 
 The first server block is used to redirect all requests for example-over-http.com to www.example-over-http.com. This assumes you want to use the www subdomain and have added a DNS A record for it.
 listen [::]:8080; is needed if you want your site to be also accesible over IPv6.
-port_in_redirect off; prevents nginx from appending the port number to the requested URL.
+port_in_redirect off; prevents Nginx from appending the port number to the requested URL.
 fastcgi directives are used to proxy requests for PHP code execution to PHP-FPM, via the FastCGI protocol.
-To configure nginx for the SSL-encrypted website (in our example we called it www.example-over-https.com), you need two more server blocks. Append the following server blocks to your /etc/nginx/sites-available/default file:
+To configure Nginx for the SSL-encrypted website (in our example we called it www.example-over-https.com), you need two more server blocks. Append the following server blocks to your /etc/Nginx/sites-available/default file:
 
-/etc/nginx/sites-available/default
+/etc/Nginx/sites-available/default
 1
 2
 3
@@ -465,8 +465,8 @@ server {
    port_in_redirect off;
 
    ssl                  on;
-   ssl_certificate      /etc/nginx/ssl/ssl-bundle.crt;
-   ssl_certificate_key  /etc/nginx/ssl/example-over-https.com.key;
+   ssl_certificate      /etc/Nginx/ssl/ssl-bundle.crt;
+   ssl_certificate_key  /etc/Nginx/ssl/example-over-https.com.key;
    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
    ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
    ssl_prefer_server_ciphers   on;
@@ -515,7 +515,7 @@ server {
 }
 For an SSL-encrypted website, you need one server block to receive traffic on port 443 and pass decrypted traffic to Varnish on port 80, and another server block to serve unencrypted traffic to Varnish on port 8080, when Varnish asks for it.
 
-The ssl_certificate directive must specify the location and name of the SSL certificate file. Take a look at our guide to using SSL on nginx for more information, and update the ssl_certificate and ssl_certificate_key values as needed.
+The ssl_certificate directive must specify the location and name of the SSL certificate file. Take a look at our guide to using SSL on Nginx for more information, and update the ssl_certificate and ssl_certificate_key values as needed.
 Alternately, if you don’t have a commercially-signed SSL certificate (issued by a CA), you can issue a self-signed SSL certificate using openssl, but this should be done only for testing purposes. Self-signed sites will return a “This Connection is Untrusted” message when opened in a browser.
 
 Now, let’s review the key points of the previous two server blocks:
@@ -531,7 +531,7 @@ access_log and error_log indicate the location and name of the respective types 
 fastcgi directives present in the last server block are necessary to proxy requests for PHP code execution to PHP-FPM, via the FastCGI protocol.
 Optional: To prevent access to your website via direct input of your IP address into a browser, you can put a catch-all default server block right at the top of the file:
 
-/etc/nginx/sites-available/default
+/etc/Nginx/sites-available/default
 1
 2
 3
@@ -547,11 +547,11 @@ server {
   index index.html;
 }
 The /var/www/html/index.html file can contain a simple message like “Page not found!”
-Restart nginx, then start Varnish:
+Restart Nginx, then start Varnish:
 
 1
 2
-sudo systemctl restart nginx
+sudo systemctl restart Nginx
 sudo systemctl start varnish
 Install WordPress, following our How to Install and Configure WordPress guide. Once WordPress is installed, continue with this guide.
 After installing WordPress, restart Varnish to clear any cached redirects to the setup page:
@@ -564,7 +564,7 @@ When you edit a WordPress page and update it, the modification won’t be visibl
 To install this plugin, log in to your WordPress website and click Plugins on the main left sidebar. Select Add New at the top of the page, and search for Varnish HTTP Purge. When you’ve found it, click Install Now, then Activate.
 
 Test Your Setup
-To test whether Varnish and nginx are doing their jobs for the HTTP website, run:
+To test whether Varnish and Nginx are doing their jobs for the HTTP website, run:
 
 1
 wget -SS http://www.example-over-http.com
@@ -596,7 +596,7 @@ The output should look like this:
     Connecting to www.example-over-http.com (www.example-over-http.com)|your_server_ip|:80... connected.
     HTTP request sent, awaiting response...
       HTTP/1.1 200 OK
-      Server: nginx/1.6.2
+      Server: Nginx/1.6.2
       Date: Sat, 26 Mar 2016 22:25:55 GMT
       Content-Type: text/html; charset=UTF-8
       Link: <http://www.example-over-http.com/wp-json/>; rel="https://api.w.org/"
@@ -612,7 +612,7 @@ The output should look like this:
     index.html              [ <=>                  ]  12.17K  --.-KB/s   in 0s
 
     2016-03-27 00:33:42 (138 MB/s) - \u2018index.html.2\u2019 saved [12459]
-The third line specifies the connection port number: 80. The backend server is correctly identified: Server: nginx/1.6.2. And the traffic passes through Varnish as intended: Via: 1.1 varnish-v4. The period of time the object has been kept in cache by Varnish is also displayed in seconds: Age: 467.
+The third line specifies the connection port number: 80. The backend server is correctly identified: Server: Nginx/1.6.2. And the traffic passes through Varnish as intended: Via: 1.1 varnish-v4. The period of time the object has been kept in cache by Varnish is also displayed in seconds: Age: 467.
 To test the SSL-encrypted website, run the same command, replacing the URL:
 
 1
