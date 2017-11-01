@@ -55,9 +55,11 @@ For all steps in this section, replace `203.0.113.100` with your servers' public
          -s malloc,1G"
 ```
 
+This will set Varnish to listen on port `80` and will instruct it to use the `custom.vcl` configuration file. The custom configuration file is used so that future updates to Varnish do not overwrite changes to `default.vcl`.
 
+The `-s malloc,1G` line sets the maximum amount of RAM that will be used by Varnish to store content. This value can be adjusted to suit your needs, taking into account the server’s total RAM along with the size and expected traffic of your website. For example, on a system with 4 GB of RAM, you can allocate 2 or 3 GB to Varnish.
 
-
+When you’ve made these changes, save and exit the file.
 
 
 
