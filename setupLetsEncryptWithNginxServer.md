@@ -116,6 +116,23 @@ $	sudo ufw status
 
 ![my image is missing: ufwStatusHTTPimg..!](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/images/ufwStatusHTTPimg.png)
 
+We're now ready to run Certbot and fetch our certificates.
+
+Step 4 — Obtaining an SSL Certificate
+Certbot provides a variety of ways to obtain SSL certificates, through various plugins. The Nginx plugin will take care of reconfiguring Nginx and reloading the config whenever necessary:
+
+```
+$	sudo certbot --nginx -d example.com -d www.example.com
+```
+This runs `certbot` with the `--nginx` plugin, using `-d` to specify the names we'd like the certificate to be valid for.
+
+If this is your first time running `certbot`, you will be prompted to enter an email address and agree to the terms of service. After doing so, `certbot` will communicate with the Let's Encrypt server, then run a challenge to verify that you control the domain you're requesting a certificate for.
+
+If that's successful, `certbot` will ask how you'd like to configure your HTTPS settings.
+
+![my image is missing: certoutputimg..!](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/images/certoutputimg.png)
+
+
 
 
 
