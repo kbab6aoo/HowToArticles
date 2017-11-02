@@ -8,3 +8,5 @@ When using the Nginx web server, **server blocks** (similar to the virtual hosts
 
 In this article, we will discuss how to configure server blocks in Nginx on a (http://example.com/ "Ubuntu 16.04 Server").
 
+This is an [example link](http://example.com/).
+
