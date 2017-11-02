@@ -132,6 +132,8 @@ If that's successful, `certbot` will ask how you'd like to configure your HTTPS 
 
 ![my image is missing: certoutputimg..!](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/images/certoutputimg.png)
 
+Select your choice then hit `ENTER`. The configuration will be updated, and Nginx will reload to pick up the new settings. certbot will wrap up with a message telling you the process was successful and where your certificates are stored:
+
 
 
 
