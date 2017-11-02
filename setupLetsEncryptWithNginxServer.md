@@ -101,6 +101,22 @@ It will probably look like this, meaning that only HTTP traffic is allowed to th
 
 ![my image is missing: ufwStatusoutputimg..!](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/images/ufwStatusoutputimg.png)
 
+To additionally let in HTTPS traffic, we can allow the Nginx Full profile and then delete the redundant Nginx HTTP profile allowance:
+
+```
+$	sudo ufw allow 'Nginx Full'
+$	sudo ufw delete allow 'Nginx HTTP'
+```
+
+Your status should look like this now:
+
+```
+$	sudo ufw status
+```
+
+![my image is missing: ufwStatusHTTPimg..!](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/images/ufwStatusHTTPimg.png)
+
+
 
 
 
