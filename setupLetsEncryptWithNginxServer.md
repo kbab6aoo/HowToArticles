@@ -69,7 +69,39 @@ server_name example.com www.example.com;
 . . .
 ```
 
+If it does, you can exit your editor and move on to the next step.
 
+If it doesn't, update it to match. Then save the file, quit your editor, and verify the syntax of your configuration edits.
+
+```
+$	sudo nginx -t
+```
+
+If you get an error, reopen the server block file and check for any typos or missing characters. Once your configuration file's syntax is correct, reload Nginx to load the new configuration.
+
+```
+$	sudo systemctl reload nginx
+```
+
+Certbot can now find the correct `server` block and update it.
+
+Next, we'll update our firewall to allow HTTPS traffic.
+
+###	Step 3 — Allowing HTTPS Through the Firewall
+
+If you have the ufw firewall enabled, as recommended by the prerequisite guides, you'll need to adjust the settings to allow for HTTPS traffic. Luckily, Nginx registers a few profiles with `ufw` upon installation.
+
+You can see the current setting by typing:
+
+```
+$	sudo ufw status
+```
+
+It will probably look like this, meaning that only HTTP traffic is allowed to the web server:
+
+```
+![my image is missing: ufwStatusoutputimg..!](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/images/ufwStatusoutputimg.png)
+```
 
 
 
