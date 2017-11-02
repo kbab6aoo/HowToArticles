@@ -118,7 +118,7 @@ $	sudo ufw status
 
 We're now ready to run Certbot and fetch our certificates.
 
-Step 4 — Obtaining an SSL Certificate
+### Step 4 — Obtaining an SSL Certificate
 Certbot provides a variety of ways to obtain SSL certificates, through various plugins. The Nginx plugin will take care of reconfiguring Nginx and reloading the config whenever necessary:
 
 ```
