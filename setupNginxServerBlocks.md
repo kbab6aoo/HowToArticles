@@ -1,4 +1,4 @@
-![my image is missing..!](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/images/nginxsvrblocksimg.png)  
+![my image is missing..!](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/images/nginx_banner.jpg)  
 
 # How To Set Up Nginx Server Blocks (Virtual Hosts) on Ubuntu 16.04  
 
