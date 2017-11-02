@@ -6,9 +6,11 @@ Part of your team is hard at work developing a new feature in another branch. Th
 
 ### Solution
 
-Our good friend git checkout is the right tool for the job.
+`git checkout` is the tool for the job.
 
+```
 git checkout source_branch <paths>...
+```
 
 We can simply give git checkout the name of the feature branch [1] and the paths to the specific files that we want to add to our master branch.
 
