@@ -99,9 +99,8 @@ $	sudo ufw status
 
 It will probably look like this, meaning that only HTTP traffic is allowed to the web server:
 
-```
 ![my image is missing: ufwStatusoutputimg..!](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/images/ufwStatusoutputimg.png)
-```
+
 
 
 
