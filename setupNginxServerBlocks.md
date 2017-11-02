@@ -9,4 +9,4 @@ When using the Nginx web server, **server blocks** (similar to the virtual hosts
 In this article, we will discuss how to configure server blocks in Nginx on a Ubuntu 16.04 Server.
 
 ### Prerequisites
-We're going to be using a non-root user with sudo privileges throughout this tutorial. If you do not have a user like this configured, you can create one by following our [Ubuntu 16.04](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/initialSvrSetupUbuntu_16_04.md)initial server setup guide.
+We're going to be using a non-root user with sudo privileges throughout this article. If you do not have a user like this configured, you can create one by following our [Ubuntu 16.04](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/initialSvrSetupUbuntu_16_04.md) initial server setup guide.
