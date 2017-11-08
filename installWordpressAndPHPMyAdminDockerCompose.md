@@ -78,7 +78,7 @@ Edit the Docker Compose file yet again:
 $	~/wordpress/docker-compose.yml
 ```
 
-Add these two lines to the _end_ of the `wordpress_db` section, but *make sure to change* **examplepass** *to a more secure password!*
+Add these two lines to the _end_ of the `wordpress_db` section, but **make sure to change** ***examplepass*** **to a more secure password!**
 
 ```
 wordpress_db:
