@@ -34,3 +34,154 @@ and paste the following:
 wordpress:
 	image: wordpress
 ```
+
+This just tells Docker Compose to start a new container called wordpress and download the wordpress image from the Docker Hub.
+
+We can bring the image up like so:
+```
+$	docker-compose up
+```
+
+You'll see Docker download and extract the WordPress image from the Docker Hub, and after some time you will get some error messages
+
+#### Step 2:	-	Installing MariaDB
+
+To add the MariaDB image to the group, re-open `docker-compose.yml` with your text editor:
+```
+$	vim ~/wordpress/docker-compose.yml
+```
+
+Change `docker-compose.yml` to match the below (be careful with the indentation, YAML files are white-space sensitive)
+
+```
+docker-compose
+
+wordpress:
+  image: wordpress
+  links:
+    - wordpress_db:mysql
+wordpress_db:
+  image: mariadb
+ ```
+
+What we've done here is define a new container called `wordpress_db` and told it to use the `mariadb` image from the Docker Hub. We also told the our `wordpress` container to link our `wordpress_db` container into the `wordpress` container and call it `mysql` (inside the wordpress container the hostname `mysql` will be forwarded to our `wordpress_db` container).
+
+If you run `docker-compose` up again, you will see it download the MariaDB image, and you'll also see that we're not quite there yet though.
+
+WordPress is still complaining about being unable to find a database, and now we have a new complaint from MariaDB saying that no root password is set.
+
+It appears that just linking the two containers isn't quite enough. Let's go ahead and set the `MYSQL_ROOT_PASSWORD` variable so that we can actually fire this thing up.
+
+Edit the Docker Compose file yet again:
+
+```
+$	~/wordpress/docker-compose.yml
+```
+
+Add these two lines to the _end_ of the `wordpress_db` section, but *make sure to change* **examplepass** *to a more secure password!*
+
+```
+wordpress_db:
+...
+	environment:
+		MYSQL_ROOT_PASSWORD: examplepass
+...
+```
+
+This will set an environment variable inside the `wordpress_db` container called `MYSQL_ROOT_PASSWORD` with your desired password. The MariaDB Docker image is configured to check for this environment variable when it starts up and will take care of setting up the DB with a root account with the password defined as `MYSQL_ROOT_PASSWORD`.
+
+While we're at it, let's also set up a port forward so that we can connect to our WordPress install once it actually loads up. Under the `wordpress` section add these two lines:
+
+```
+wordpress:
+...
+	ports:
+		- 8080:80
+...
+```
+
+The first port number is the port number on the host, and the second port number is the port inside the container. So, this configuration forwards requests on port 8080 of the host to the default web server port 80 inside the container.
+
+>##### Note
+> If you would like Wordpress to run on the default web server port 80 on the host, change the previous line to `80:80` so that requests to port 80 on the host are forwarded to port 80 inside the Wordpress container.
+
+Your complete `docker-compose.yml` file should now look like this:
+
+```
+docker-compose.yml
+
+wordpress:
+  image: wordpress
+  links:
+    - wordpress_db:mysql
+  ports:
+    - 8080:80
+wordpress_db:
+  image: mariadb
+  environment:
+    MYSQL_ROOT_PASSWORD: examplepass
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
