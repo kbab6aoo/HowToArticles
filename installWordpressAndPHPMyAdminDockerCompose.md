@@ -16,4 +16,4 @@ To follow this article, you will need the following:
 
 Step 1:	-	Installing WordPress
 
-We'll be using the official (WordPress)[https://hub.docker.com/_/wordpress/] and (MariaDB)[https://hub.docker.com/_/mariadb/]Docker images. If you're curious, there's lots more info about these images and their configuration options on their respective GitHub and Docker Hub pages
+We'll be using the official [WordPress](https://hub.docker.com/_/wordpress/]) and [MariaDB](https://hub.docker.com/_/mariadb/)Docker images. If you're curious, there's lots more info about these images and their configuration options on their respective GitHub and Docker Hub pages
