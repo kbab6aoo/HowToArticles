@@ -21,10 +21,10 @@ The details of our machines are here:
 
 | Hostname | IP Address | Role
 |:-:|:-:|:-:|
-svr1.jagho.tk | 10.0.0.254 | bootstrap consul server
-svr2.jagho.tk | 10.0.0.250 | consul server
-svr3.jagho.tk | 10.0.0.70 | consul server
-svr4.jagho.tk | 10.0.0.25 | consul client
+cslsvr1.jagho.tk | 10.0.0.254 | bootstrap consul server
+cslsvr2.jagho.tk | 10.0.0.250 | consul server
+cslsvr3.jagho.tk | 10.0.0.70 | consul server
+cslsvr4.jagho.tk | 10.0.0.25 | consul client
 
 We will be using 64-bit Ubuntu 16.04 servers for this demonstration, but any modern Linux server should work equally well.
 
@@ -149,6 +149,46 @@ svr3.jagho.tk   	10.0.0.70:8301  	alive   server  0.3.0  2
 
 You can get this information from any of the other servers as well by creating a new terminal session in screen as we described above and issuing the same command.
 
+## Removing the Bootstrap Server and Re-Joining as a Regular Server
+
+We have all three of our servers joined in a cluster, but we are not done yet.
+
+Currently, since `svr1` was started in bootstrap mode, it has the power to make decisions without consulting the other servers. Since they are supposed to operate as equals and make decisions by quorum, we want to remove this privilege after the cluster has been bootstrapped.
+
+To do this, we need to stop the consul service on `svr1`. This will allow the remaining machines to select a new leader. We can then restart the consul service on `svr1` without the bootstrap option and rejoin the cluster.
+
+On `svr1`, switch back to the terminal running consul:
+
+```
+CTRL-A N
+```
+
+Stop the service by typing:
+
+```
+CTRL-C
+```
+
+Now, restart the service without the bootstrap option:
+
+```
+consul agent -server -data-dir /tmp/consul
+```
+
+Switch back to your open terminal and rejoin the cluster by connecting with one of the two servers in the cluster:
+
+```
+CTRL-A N
+consul join 10.0.0.250
+```
+
+You should now have your three servers available in equal standing. They will replicate information to each other and will handle situations where a single server becomes unavailable. Additional servers can now join the cluster as well by simply starting the server without bootstrap and joining the cluster.
+
+## Joining the Cluster as a Client and Serving the Web UI
+
+Now that the server cluster is available, we can go ahead and connect using the client machine.
+
+We are going to put the consul web UI on our client machine so that we can interact with the cluster and monitor its health. To do this, visit the [download page for the web UI](). Right-click on the download button and select "copy link location" or whatever similar option you have available.
 
 
 
