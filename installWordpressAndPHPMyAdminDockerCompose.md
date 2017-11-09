@@ -227,7 +227,8 @@ Again, load the WordPress site. You should see your blog site and the change you
 
 It is possible to store the document root for WordPress on the host filesystem using a Docker data volume to share files between the host and the container.
 
->#### Note:  For more details on working with Docker data volumes, take a look at the [Docker data volumes article](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/workingWithDockerDataVolumes_16_04.md). 
+>#### Note:  
+>For more details on working with Docker data volumes, take a look at the [Docker data volumes article](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/workingWithDockerDataVolumes_16_04.md). 
 
 
 
