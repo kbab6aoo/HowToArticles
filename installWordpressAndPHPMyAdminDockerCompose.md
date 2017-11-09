@@ -230,6 +230,99 @@ It is possible to store the document root for WordPress on the host filesystem u
 >#### Note:  
 >For more details on working with Docker data volumes, take a look at the [Docker data volumes article](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/workingWithDockerDataVolumes_16_04.md). 
 
+Let's give it a try. Open up your `docker-compose.yml` file one more time:
+
+```
+$	vim ~/wordpress/docker-compose.yml
+```
+
+in the `wordpress:` section add the following lines:
+
+```
+~/wordpress/docker-compose.yml
+
+wordpress:
+...
+  volumes:
+    - ~/wordpress/wp_html:/var/www/html
+    ...
+```
+
+Stop your currently running `docker-compose` session:
+
+```
+$	docker-compose stop
+```
+
+Remove the existing container so we can map the volume to the host filesystem:
+
+```
+$	docker-compose rm wordpress
+```
+
+Start WordPress again:
+
+```
+$	docker-compose -d
+```
+
+Once the prompt returns, WordPress should be up and running again — this time using the host filesystem to store the document root.
+
+If you look in your `~/wordpress` directory, you will see that there is now a `wp_html` directory in it:
+
+```
+$	ls ~/wordpress
+```
+
+All of the WordPress source files are inside it. Changes you make will be picked up by the WordPress container in real time.
+
+This experience was a little smoother than it normally would be — the WordPress Docker container is configured to check if `/var/www/html` is empty or not when it starts and copies files there appropriately. Usually you will have to do this step yourself.
+
+### Conclusion
+
+You should have a full WordPress deploy up and running. You should be able to use the same method to deploy quite a wide variety of systems using the images available on the Docker Hub. Be sure to figure out which volumes are persistent and which are not for each container you create
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
