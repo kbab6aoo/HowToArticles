@@ -141,7 +141,103 @@ This is because there is a script inside the WordPress Docker container that act
 
 Let's venture out of the official image area a little bit and use a [community contributed PhpMyAdmin image](https://hub.docker.com/r/corbinu/docker-phpmyadmin/). Go ahead and edit docker-compose.yml one more time:
 
-	
+```
+$	vim docker-compose.yml
+```
+Paste the following at the end of the file:
+```
+docker-compose.yml
+
+phpmyadmin:
+  image: corbinu/docker-phpmyadmin
+  links:
+    - wordpress_db:mysql
+  ports:
+    - 8181:80
+  environment:
+    MYSQL_USERNAME: root
+    MYSQL_ROOT_PASSWORD: examplepass
+```
+
+Be sure to replace ***examplepass*** with the exact same root password from the `wordpress_db` container you setup earlier.
+
+This grabs `docker-phpmyadmin` by community member `corbinu`, links it to our `wordpress_db` container with the name `mysql` (meaning from inside the `phpmyadmin` container references to the hostname `mysql` will be forwarded to our `wordpress_db` container), exposes its port 80 on port 8181 of the host system, and finally sets a couple of environment variables with our MariaDB username and password. This image does not automatically grab the `MYSQL_ROOT_PASSWORD` environment variable from the `wordpress_db` container's environment the way the wordpress image does. We actually have to copy the `MYSQL_ROOT_PASSWORD`: _examplepass_ line from the `wordpress_db` container, and set the username to `root`.
+
+The complete docker-compose.yml file should now look like this:
+
+```
+docker-compose.yml
+
+wordpress:
+  image: wordpress
+  links:
+    - wordpress_db:mysql
+  ports:
+    - 8080:80
+wordpress_db:
+  image: mariadb
+  environment:
+    MYSQL_ROOT_PASSWORD: examplepass
+phpmyadmin:
+  image: corbinu/docker-phpmyadmin
+  links:
+    - wordpress_db:mysql
+  ports:
+    - 8181:80
+  environment:
+    MYSQL_USERNAME: root
+    MYSQL_ROOT_PASSWORD: examplepass
+```
+
+Now start up the application group again:
+
+```
+$	docker-compose up -d
+```
+
+You will see PhpMyAdmin being installed. Once it is finished, visit your server's IP address again (this time using port 8181, e.g. http://123.456.789.123:8181). You'll be greeted by the PhpMyAdmin login screen.
+
+Go ahead and login using username `root` and password you set in the YAML file, and you'll be able to browse your database. You'll notice that the server includes a `wordpress` database, which contains all the data from your WordPress install.
+
+You can add as many containers as you like this way and link them all up in any way you please. As you can see, the approach is quite powerful —instead of dealing with the configuration and prerequisites for each individual components and setting them all up on the same server, you get to plug the pieces together like Lego blocks and add components piecemeal. Using tools like Docker Swarm you can even transparently run these containers over multiple servers! That's a bitoutside the scope of this tutorial though. Docker provides some [documentation]((https://docs.docker.com/swarm/install-w-machine/)) on it if you are interested.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
