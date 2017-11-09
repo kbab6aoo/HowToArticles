@@ -122,9 +122,16 @@ wordpress_db:
     MYSQL_ROOT_PASSWORD: examplepass
 ```
 
+With this configuration we can actually go ahead and fire up WordPress. This time, let's run it with the `-d` option, which will tell `docker-compose` to run the containers in the background so that you can keep using your terminal:
 
+```
+$	docker-compose up -d
+```
+You will see a whole bunch of text fly by your screen. Once it's calmed down, open up a web browser and browse to the IP of your AWS EC2 Instancce on port 8080 (for example, if the IP address of your server is 123.456.789.123 you should type http://123.456.789.123:8080 into your browser.)
 
+You should see a fresh WordPress installation page and be able to complete the install and blog as usual.
 
+Because these are both official Docker images and are following all of Docker's best practices, each of these images have pre-defined, persistent volumes for you — meaning that if you restart the container, your blog posts will still be there. You can learn more about working with Docker volumes in the [Docker data volumes article.]  (https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/workingWithDockerDataVolumes_16_04.md)
 
 
 
