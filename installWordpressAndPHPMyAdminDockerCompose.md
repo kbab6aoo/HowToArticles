@@ -201,9 +201,33 @@ Go ahead and login using username `root` and password you set in the YAML file, 
 
 You can add as many containers as you like this way and link them all up in any way you please. As you can see, the approach is quite powerful —instead of dealing with the configuration and prerequisites for each individual components and setting them all up on the same server, you get to plug the pieces together like Lego blocks and add components piecemeal. Using tools like Docker Swarm you can even transparently run these containers over multiple servers! That's a bitoutside the scope of this tutorial though. Docker provides some documentation (https://docs.docker.com/swarm/install-w-machine/) on it if you are interested.
 
+#### Step 4:	-	Creating the WordPress Site
 
+Since all the files for your new WordPress site are stored inside your Docker container, what happens to your files when you stop the container and start it again?
 
+By default, the document root for the WordPress container is persistent. This is because the WordPress image from the Docker Hub is configured this way. If you make a change to your WordPress site, stop the application group, and start it again, your website will still have the changes you made.
 
+Let's try it.
+
+Go to your WordPress from a web browser (e.g. http://123.456.789.123:8080). Edit the Hello World! post that already exists. Then, stop all the Docker containers with the following command:
+
+```
+$	docker-compose stop
+```
+
+Try loading the WordPress site again. You will see that the website is down. Start the Docker containers again:
+
+```
+$	docker-compose up -d
+```
+
+Again, load the WordPress site. You should see your blog site and the change you made earlier. This shows that the changes you make are saved even when the containers are stopped.
+
+#### Step 5:	-	Storing the Document Root on the Host Filesystem (Optional)
+
+It is possible to store the document root for WordPress on the host filesystem using a Docker data volume to share files between the host and the container.
+
+>#### Note:  For more details on working with Docker data volumes, take a look at the [Docker data volumes article](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/workingWithDockerDataVolumes_16_04.md). 
 
 
 
