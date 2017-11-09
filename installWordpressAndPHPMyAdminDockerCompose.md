@@ -1,4 +1,4 @@
-# How To Install Wordpress and PhpMyAdmin with Docker Compose on Ubuntu 16.04
+# How To Install Wordpress and PhpMyAdmin with Docker Compose on Ubuntu 16.04 AWS EC2 Instance
 
 ## Introduction
 
