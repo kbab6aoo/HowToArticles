@@ -131,7 +131,7 @@ You will see a whole bunch of text fly by your screen. Once it's calmed down, op
 
 You should see a fresh WordPress installation page and be able to complete the install and blog as usual.
 
-Because these are both official Docker images and are following all of Docker's best practices, each of these images have pre-defined, persistent volumes for you — meaning that if you restart the container, your blog posts will still be there. You can learn more about working with Docker volumes in the [Docker data volumes article.]  (https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/workingWithDockerDataVolumes_16_04.md)
+Because these are both official Docker images and are following all of Docker's best practices, each of these images have pre-defined, persistent volumes for you — meaning that if you restart the container, your blog posts will still be there. You can learn more about working with Docker volumes in the [Docker data volumes article.](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/workingWithDockerDataVolumes_16_04.md)
 
 
 
