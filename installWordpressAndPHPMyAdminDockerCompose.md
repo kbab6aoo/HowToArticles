@@ -199,7 +199,7 @@ You will see PhpMyAdmin being installed. Once it is finished, visit your server'
 
 Go ahead and login using username `root` and password you set in the YAML file, and you'll be able to browse your database. You'll notice that the server includes a `wordpress` database, which contains all the data from your WordPress install.
 
-You can add as many containers as you like this way and link them all up in any way you please. As you can see, the approach is quite powerful —instead of dealing with the configuration and prerequisites for each individual components and setting them all up on the same server, you get to plug the pieces together like Lego blocks and add components piecemeal. Using tools like Docker Swarm you can even transparently run these containers over multiple servers! That's a bitoutside the scope of this tutorial though. Docker provides some documentation((https://docs.docker.com/swarm/install-w-machine/)) on it if you are interested.
+You can add as many containers as you like this way and link them all up in any way you please. As you can see, the approach is quite powerful —instead of dealing with the configuration and prerequisites for each individual components and setting them all up on the same server, you get to plug the pieces together like Lego blocks and add components piecemeal. Using tools like Docker Swarm you can even transparently run these containers over multiple servers! That's a bitoutside the scope of this tutorial though. Docker provides some documentation (https://docs.docker.com/swarm/install-w-machine/) on it if you are interested.
 
 
 
