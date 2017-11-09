@@ -139,7 +139,7 @@ So far we have only been using official images, which the Docker team takes grea
 
 This is because there is a script inside the WordPress Docker container that actually grabs the `MYSQL_ROOT_PASSWORD` variable from our `wordpress_db`	 container and uses that to connect to WordPress.
 
-Let's venture out of the official image area a little bit and use a [community contributed PhpMyAdmin image].(https://hub.docker.com/r/corbinu/docker-phpmyadmin/) Go ahead and edit docker-compose.yml one more time:
+Let's venture out of the official image area a little bit and use a [community contributed PhpMyAdmin image](https://hub.docker.com/r/corbinu/docker-phpmyadmin/). Go ahead and edit docker-compose.yml one more time:
 
 	
 
