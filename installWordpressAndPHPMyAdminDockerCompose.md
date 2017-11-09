@@ -133,7 +133,15 @@ You should see a fresh WordPress installation page and be able to complete the i
 
 Because these are both official Docker images and are following all of Docker's best practices, each of these images have pre-defined, persistent volumes for you — meaning that if you restart the container, your blog posts will still be there. You can learn more about working with Docker volumes in the [Docker data volumes article.](https://github.com/kbab6aoo/HowToArticles/blob/myHowToArticles/workingWithDockerDataVolumes_16_04.md)
 
+#### Step 3:	-	Adding a PhpMyAdmin Container
 
+So far we have only been using official images, which the Docker team takes great pains to ensure are accurate. You may have noticed that we did not have to give the WordPress container any environment variables to configure it. As soon as we linked it up to a properly configured MariaDB container everything just worked.
+
+This is because there is a script inside the WordPress Docker container that actually grabs the `MYSQL_ROOT_PASSWORD` variable from our `wordpress_db`	 container and uses that to connect to WordPress.
+
+Let's venture out of the official image area a little bit and use a [community contributed PhpMyAdmin image].(https://hub.docker.com/r/corbinu/docker-phpmyadmin/) Go ahead and edit docker-compose.yml one more time:
+
+	
 
 
 
