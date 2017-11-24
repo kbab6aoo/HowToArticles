@@ -12,5 +12,5 @@ This guide is operating system agnostic, but should be very helpful when impleme
 
 Before we begin to discuss networking with any depth, we must define some common terms that you will see throughout this guide, and in other guides and documentation regarding networking.
 
-These terms will be expanded upon in the appropraite sections that follow:
--	Connection:	In networking
+These terms will be expanded upon in the appropriate sections that follow:
+-	**Connection:**	In networking
