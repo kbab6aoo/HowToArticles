@@ -1,6 +1,6 @@
-# An Introduction to Networking Terminology, Interfaces, and Protocols
+## An Introduction to Networking Terminology, Interfaces, and Protocols
 
-## Introduction
+### Introduction
 
 A basic understanding of networking is important for anyone managing a server.  Not only is it essential for getting your services on-line and running smoothly, it also gives you the insight to diagnose problems.  
 
@@ -8,7 +8,7 @@ This document will provide a basic overview of some common networking concepts. 
 
 This guide is operating system agnostic, but should be very helpful when implementing features and services that utilize networking on your server.
 
-### Networking Glossary
+#### Networking Glossary
 
 Before we begin to discuss networking with any depth, we must define some common terms that you will see throughout this guide, and in other guides and documentation regarding networking.
 
@@ -24,7 +24,7 @@ Packets have a header portion that contains information about the packet includi
 
 A network interface may be associated with a physical device, or it may be a representation of a virtual interface.  The "loopback" device, which is a virtual interface to the local machine, is an example of this.
 
--	**LAN:** LAN stands for "local area network".  It refers to a network that is not publicly accessible to the greater internet.  A home o office network is an example of a LAN.
+-	**LAN:** LAN stands for "local area network".  It refers to a network that is not publicly accessible to the greater INTERNET.  A home o office network is an example of a LAN.
 
 -	**WAN:** WAN stands for "wide area network".  It means a network that is much more extensive than a LAN.  While WAN is the relevant term to use to describe large, dispersed networks in general, it is usually meant to mean the INTERNET as a whole.
 
