@@ -9,3 +9,4 @@
 * [How To Merge Specific Files from Another Branch](https://github.com/kbab6aoo/HowToArticles/wiki/How-to-%22merge%22-specific-files-from-another-%22GIT%22-branch)
 * [How To Create A Debian Package From Source](https://github.com/kbab6aoo/HowToArticles/wiki/How-to-Create-Debian-Packages-From-Source)
 * [An Introduction to Networking Terminology, Interfaces, and Protocols](https://github.com/kbab6aoo/HowToArticles/wiki/An-Introduction-to-Networking-Terminology,-Interfaces,-and-Protocols)
+* [How To Copy Files With Rsync Over SSH](https://github.com/kbab6aoo/HowToArticles/wiki/How-To-Copy-Files-With-Rsync-Over-SSH)
