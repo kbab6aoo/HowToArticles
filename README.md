@@ -1,5 +1,6 @@
 # A List of How To Articles
 
+* [How To Install Puppet 4 on Ubuntu 16.04](https://github.com/kbab6aoo/HowToArticles/wiki/How-To-Install-Puppet-4-on-Ubuntu-16.04)
 * [How To Configure BIND9 As A Private Network DNS Server on Ubuntu 16.04](https://github.com/kbab6aoo/HowToArticles/wiki/How-To-Configure-BIND-as-a-Private-Network-DNS-Server-on-Ubuntu-16.04)
 * [How To Install Wordpress and PhpMyAdmin with Docker Compose on A Ubuntu 16.04 AWS EC2 Instance](https://github.com/kbab6aoo/HowToArticles/wiki/How-To-Install-Wordpress-and-PhpMyAdmin-with-Docker-Compose-on-A-Ubuntu-16.04-AWS-EC2-Instance)
 * [How To Install and Configure Varnish](https://github.com/kbab6aoo/HowToArticles/wiki/How-To-Install-and-Configure-Varnish)
